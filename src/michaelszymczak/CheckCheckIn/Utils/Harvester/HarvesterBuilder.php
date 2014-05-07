@@ -1,7 +1,7 @@
 <?php
-namespace com\michaelszymczak\CheckCheckIn\Utils\Harvester;
-use \com\michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
-use \com\michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester;
+namespace michaelszymczak\CheckCheckIn\Utils\Harvester;
+use \michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
+use \michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester;
 
 class HarvesterBuilder
 {

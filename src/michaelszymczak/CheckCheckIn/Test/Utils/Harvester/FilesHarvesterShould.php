@@ -1,19 +1,19 @@
 <?php
-namespace com\michaelszymczak\CheckCheckIn\Test\Utils\Harvester;
-use com\michaelszymczak\CheckCheckIn\Test\Utils\Composite\CompositeTestCase;
-use \com\michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester;
+namespace michaelszymczak\CheckCheckIn\Test\Utils\Harvester;
+use michaelszymczak\CheckCheckIn\Test\Utils\Composite\CompositeTestCase;
+use michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester;
 use \Mockery as m;
 /**
- * @covers \com\michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester
+ * @covers \michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester
  *
  */
 class FilesHarvesterShould extends CompositeTestCase
 {
     protected function getComposite()
     {
-        $this->subharvester1 = m::mock('\com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent');
-        $this->subharvester2 = m::mock('\com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent');
-        $this->subharvester3 = m::mock('\com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent');
+        $this->subharvester1 = m::mock('\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent');
+        $this->subharvester2 = m::mock('\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent');
+        $this->subharvester3 = m::mock('\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent');
         $harvester = new FilesHarvester();
         $harvester->addComponent($this->subharvester1);
         $harvester->addComponent($this->subharvester2);

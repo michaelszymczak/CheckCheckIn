@@ -1,8 +1,8 @@
 <?php
-namespace com\michaelszymczak\CheckCheckIn\Test\Utils\Composite;
+namespace michaelszymczak\CheckCheckIn\Test\Utils\Composite;
 use \Mockery as m;
 /**
- * @covers \com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite
+ * @covers \michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite
  */
 class ExecutorAwareCompositeShould extends CompositeTestCase
 {
@@ -53,7 +53,7 @@ class ExecutorAwareCompositeShould extends CompositeTestCase
      */
     public function useCustomExecutorWhenPassedWhileGettingOne()
     {
-        $newExecutor = m::mock('\com\michaelszymczak\CheckCheckIn\Utils\Executor\Executor');
+        $newExecutor = m::mock('\michaelszymczak\CheckCheckIn\Utils\Executor\Executor');
         $harvester = $this->getComposite();
         $this->assertSame($newExecutor, $harvester->getExecutor($newExecutor));
     }

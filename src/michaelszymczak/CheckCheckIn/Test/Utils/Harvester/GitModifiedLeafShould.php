@@ -1,13 +1,13 @@
 <?php
-namespace com\michaelszymczak\CheckCheckIn\Test\Utils\Harvester;
-use com\michaelszymczak\CheckCheckIn\Test\Utils\Composite\CompositeTestCase;
-use \com\michaelszymczak\CheckCheckIn\Utils\Harvester\GitModifiedLeaf;
+namespace michaelszymczak\CheckCheckIn\Test\Utils\Harvester;
+use michaelszymczak\CheckCheckIn\Test\Utils\Composite\CompositeTestCase;
+use \michaelszymczak\CheckCheckIn\Utils\Harvester\GitModifiedLeaf;
 use \Mockery as m;
 /**
  * Class GitModifiedLeafShould.
  *
- * @covers \com\michaelszymczak\CheckCheckIn\Utils\Harvester\GitModifiedLeaf
- * @covers \com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent
+ * @covers \michaelszymczak\CheckCheckIn\Utils\Harvester\GitModifiedLeaf
+ * @covers \michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent
  */
 class GitModifiedLeafShould extends CompositeTestCase
 {

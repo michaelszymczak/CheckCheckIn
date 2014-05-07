@@ -1,7 +1,7 @@
 <?php
-namespace com\michaelszymczak\CheckCheckIn\Utils\Harvester;
-use com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite;
-use \com\michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
+namespace michaelszymczak\CheckCheckIn\Utils\Harvester;
+use michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite;
+use \michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
 
 class FilesHarvester extends ExecutorAwareComposite
 {

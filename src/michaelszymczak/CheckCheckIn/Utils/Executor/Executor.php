@@ -1,5 +1,5 @@
 <?php
-namespace com\michaelszymczak\CheckCheckIn\Utils\Executor;
+namespace michaelszymczak\CheckCheckIn\Utils\Executor;
 
 class Executor
 {

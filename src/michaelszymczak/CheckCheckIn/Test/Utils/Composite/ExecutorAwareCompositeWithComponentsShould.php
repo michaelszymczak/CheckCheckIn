@@ -1,8 +1,8 @@
 <?php
-namespace com\michaelszymczak\CheckCheckIn\Test\Utils\Composite;
+namespace michaelszymczak\CheckCheckIn\Test\Utils\Composite;
 use \Mockery as m;
 /**
- * @covers \com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite
+ * @covers \michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite
  * @group wip
  */
 class ExecutorAwareCompositeWithComponentsShould extends CompositeTestCase
@@ -54,9 +54,9 @@ class ExecutorAwareCompositeWithComponentsShould extends CompositeTestCase
     protected function getComposite()
     {
         $composite = parent::getComposite();
-        $this->component1 = m::mock('\com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite');
-        $this->component2 = m::mock('\com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite');
-        $this->component3 = m::mock('\com\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite');
+        $this->component1 = m::mock('\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite');
+        $this->component2 = m::mock('\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite');
+        $this->component3 = m::mock('\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite');
         $composite->addComponent($this->component1);
         $composite->addComponent($this->component2);
         $composite->addComponent($this->component3);

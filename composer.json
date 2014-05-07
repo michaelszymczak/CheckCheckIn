@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-0": {
-            "com\\michaelszymczak\\CheckCheckIn\\": "src/"
+            "michaelszymczak\\CheckCheckIn\\": "src/"
         }
     },
     "repositories": [

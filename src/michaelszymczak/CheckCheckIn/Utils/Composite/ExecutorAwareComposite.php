@@ -1,8 +1,8 @@
 <?php
 
-namespace com\michaelszymczak\CheckCheckIn\Utils\Composite;
+namespace michaelszymczak\CheckCheckIn\Utils\Composite;
 
-use \com\michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
+use \michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
 
 class ExecutorAwareComposite implements Processable {
     protected $executor;
