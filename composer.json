@@ -1,0 +1,24 @@
+{
+    "name": "com/michaelszymczak/CheckCheckIn",
+    "authors": [
+        {
+            "name": "Michael Szymczak",
+            "email": "contact@michaelszymczak.com",
+            "homepage": "http://www.michaelszymczak.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "mockery/mockery": ">=0.7.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "com\\michaelszymczak\\CheckCheckIn\\": "src/"
+        }
+    },
+    "repositories": [
+    ]
+}

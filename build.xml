@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CheckCheckIn" default="install" basedir=".">
+
+    <target name="install" description="Installs the app" depends="installComposer, installVendorDev, test"/>
+
+    <!-- composer -->
+    <target name="installComposer" depends="installComposer.check" unless="installComposer.pharExists" description="Installs composer.phar">
+        <exec executable="/bin/bash" failonerror="true">
+            <arg value="-c" />
+            <arg value="curl -s https://getcomposer.org/installer | php" />
+        </exec>
+    </target>
+
+    <target name="installComposer.check">
+        <available file="composer.phar" property="installComposer.pharExists"/>
+    </target>
+    <!-- /composer -->
+
+    <!-- vendor -->
+    <target name="installVendor" description="Dependencies">
+        <exec executable="php" failonerror="true">
+            <arg value="composer.phar" />
+            <arg value="install" />
+        </exec>
+    </target>
+
+    <target name="installVendorDev" description="Dependencies with development dependencies">
+        <exec executable="php" failonerror="true">
+            <arg value="composer.phar" />
+            <arg value="install" />
+            <arg value="--dev" />
+        </exec>
+    </target>
+    <!-- /vendor -->
+
+    <target name="test" description="Runs tests">
+        <exec executable="vendor/bin/phpunit" failonerror="true">
+        </exec>
+    </target>
+
+</project>
