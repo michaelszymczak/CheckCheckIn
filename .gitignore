@@ -1,7 +1,6 @@
 vendor/*
 /nbproject/private
 /.idea
-composer.lock
 
 /.vagrant
 Vagrantfile
