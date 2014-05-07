@@ -29,6 +29,16 @@ class GitModifiedLeafShould extends CompositeTestCase
     {
         $this->leaf->process();
     }
+    /**
+     * @test
+     * @expectedException \RuntimeException
+     */
+    public function throwExceptionIfExecutedCommandReturnsError()
+    {
+      $this->executor->shouldReceive('exec')->with('git ls-files --modified')->once()->andThrow(new \RuntimeException());
+
+      $this->leaf->process($this->executor);
+    }
 
     protected $leaf;
     public function setUp()
