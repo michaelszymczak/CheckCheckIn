@@ -11,23 +11,17 @@ class HarvesterBuilder
         $this->executor = $executor;
     }
 
-    public function buildGitStaged()
+    public function toBeCommited()
     {
         $harvester = $this->prepareHarvester();
         $harvester->addComponent(new GitStagedLeaf());
         return $harvester;
     }
 
-    public function buildGitModified()
+    public function allCandidates()
     {
         $harvester = $this->prepareHarvester();
-        $harvester->addComponent(new GitModifiedLeaf());
-        return $harvester;
-    }
-
-    public function buildGitModifiedAndStaged()
-    {
-        $harvester = $this->prepareHarvester();
+        $harvester->addComponent(new GitUntrackedLeaf());
         $harvester->addComponent(new GitModifiedLeaf());
         $harvester->addComponent(new GitStagedLeaf());
         return $harvester;

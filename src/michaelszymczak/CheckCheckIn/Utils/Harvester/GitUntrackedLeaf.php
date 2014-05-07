@@ -4,8 +4,8 @@ use michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent;
 
 class GitUntrackedLeaf extends ExecutorAwareComponent
 {
-    public function getCommand()
+    public function getCommands()
     {
-        return 'git ls-files --other --exclude-standard';
+        return array('git ls-files --other --exclude-standard');
     }
 }

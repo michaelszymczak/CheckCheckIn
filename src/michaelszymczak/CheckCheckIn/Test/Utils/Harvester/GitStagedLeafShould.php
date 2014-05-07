@@ -23,6 +23,20 @@ class GitStagedLeafShould extends CompositeTestCase
     }
     /**
      * @test
+     */
+    public function useUniversalBaseHashIfNoHEADinNotYetCommitedRepository()
+    {
+        $this->executor->shouldReceive('exec')
+            ->with('git diff-index --cached --name-only HEAD')
+            ->andThrow(new \RuntimeException());
+        $this->executor->shouldReceive('exec')
+            ->with('git diff-index --cached --name-only 4b825dc642cb6eb9a060e54bf8d69288fbee4904')
+            ->andReturn(array('stagedFileInNotYetCommitedRepo.txt'));
+
+        $this->assertSame(array('stagedFileInNotYetCommitedRepo.txt'), $this->leaf->process($this->executor));
+    }
+    /**
+     * @test
      * @expectedException \InvalidArgumentException
      */
     public function throwExceptionIfNoExecutorPassed()

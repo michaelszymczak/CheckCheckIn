@@ -4,8 +4,8 @@ use michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent;
 
 class GitModifiedLeaf extends ExecutorAwareComponent
 {
-    public function getCommand()
+    public function getCommands()
     {
-        return 'git ls-files --modified';
+        return array('git ls-files --modified');
     }
 }
