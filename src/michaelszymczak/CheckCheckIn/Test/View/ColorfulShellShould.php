@@ -1,5 +1,6 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Test\Utils;
+namespace michaelszymczak\CheckCheckIn\Test\View;
+
 use \michaelszymczak\CheckCheckIn\View\ColorfulShell;
 
 /**
