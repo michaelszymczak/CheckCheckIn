@@ -14,18 +14,27 @@ class ResponseShould extends \PHPUnit_Framework_TestCase
      */
     public function returnMessagePassedDuringObjectCreation()
     {
-        $response = new SampleResponse('foo');
+        $response = new SampleResponse(array('foo'));
 
-        $this->assertSame('foo', $response->getMessage());
+        $this->assertSame(array('foo'), $response->getMessage());
     }
     /**
      * @test
      */
-    public function returnEmptyMessageIfEmptyMessagePassedDuringObjectCreation()
+    public function returnMoreThanOneMessagesPassedDuringObjectCreation()
     {
-        $response = new SampleResponse('');
+        $response = new SampleResponse(array('bar', 'bar', 'baz'));
 
-        $this->assertSame('', $response->getMessage());
+        $this->assertSame(array('bar', 'bar', 'baz'), $response->getMessage());
+    }
+    /**
+     * @test
+     */
+    public function transformStringIntoArrayContainingThisString()
+    {
+        $response = new SampleResponse('bar');
+
+        $this->assertSame(array('bar'), $response->getMessage());
     }
 }
 

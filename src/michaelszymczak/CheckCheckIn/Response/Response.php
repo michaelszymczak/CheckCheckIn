@@ -6,7 +6,7 @@ abstract class Response {
 
     public function __construct($message)
     {
-        $this->message = $message;
+        $this->message = (is_array($message)) ? $message : array($message);
     }
 
     public function getMessage()

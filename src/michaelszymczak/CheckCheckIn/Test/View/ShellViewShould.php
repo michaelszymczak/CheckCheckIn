@@ -21,10 +21,40 @@ class ShellViewShould extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function createInlineInstance()
+    {
+        $view = ShellView::createInline();
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\ShellView', $view);
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\InlineShellView', $view);
+    }
+
+    /**
+     * @test
+     */
+    public function createNewlineInstance()
+    {
+        $view = ShellView::createNewline();
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\ShellView', $view);
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\NewlineShellView', $view);
+    }
+
+    /**
+     * @test
+     */
+    public function createDefaultInstance()
+    {
+        $view = ShellView::createDefault();
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\ShellView', $view);
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\DefaultShellView', $view);
+    }
+
+    /**
+     * @test
+     */
     public function useMeaningfulColorsWhenErrorRendered()
     {
-        $this->assertSame("\033[1;37m\033[41mSome error message\033[0m", $this->view->error('Some error message'));
-        $this->assertSame("\033[1;37m\033[41m   \033[0m", $this->view->error('   '));
+        $this->assertSame("\033[1;37m\033[41mSome error message\033[0m", $this->view->error(array('Some error message')));
+        $this->assertSame("\033[1;37m\033[41m   \033[0m", $this->view->error(array('   ')));
     }
 
     /**
@@ -32,8 +62,8 @@ class ShellViewShould extends \PHPUnit_Framework_TestCase
      */
     public function useMeaningfulColorsWhenInfoRendered()
     {
-        $this->assertSame("\033[0;37mSome info message\033[0m", $this->view->info('Some info message'));
-        $this->assertSame("\033[0;37m   \033[0m", $this->view->info('   '));
+        $this->assertSame("\033[0;37mSome info message\033[0m", $this->view->info(array('Some info message')));
+        $this->assertSame("\033[0;37m   \033[0m", $this->view->info(array('   ')));
     }
 
     /**
@@ -41,42 +71,17 @@ class ShellViewShould extends \PHPUnit_Framework_TestCase
      */
     public function useMeaningfulColorsWhenSuccessRendered()
     {
-        $this->assertSame("\033[1;37m\033[42mSome success message\033[0m", $this->view->success('Some success message'));
-        $this->assertSame("\033[1;37m\033[42m   \033[0m", $this->view->success('   '));
+        $this->assertSame("\033[1;37m\033[42mSome success message\033[0m", $this->view->success(array('Some success message')));
+        $this->assertSame("\033[1;37m\033[42m   \033[0m", $this->view->success(array('   ')));
     }
     /**
      * @test
      */
     public function returnTheSameMessageWithoutAnyColorsWhenRawRendered()
     {
-        $this->assertSame('Some message', $this->view->raw('Some message'));
-        $this->assertSame('', $this->view->raw(''));
+        $this->assertSame('Some message', $this->view->raw(array('Some message')));
+        $this->assertSame('', $this->view->raw(array('')));
     }
-
-    /**
-     * @test
-     */
-    public function returnEachMessageInlineIfExplicitlyConfiguredSoDuringCreation()
-    {
-        $view = new ShellView(new ColorfulShell(), ShellView::INLINE);
-        $this->assertStringStartsNotWith("\n", $view->raw('foo'));
-        $this->assertStringStartsNotWith("\n", $view->success('foo'));
-        $this->assertStringStartsNotWith("\n", $view->info('foo'));
-        $this->assertStringStartsNotWith("\n", $view->error('foo'));
-    }
-
-    /**
-     * @test
-     */
-    public function returnEachMessageInNewlineByDefault()
-    {
-        $view = new ShellView(new ColorfulShell());
-        $this->assertStringStartsWith("\n", $view->raw('foo'));
-        $this->assertStringStartsWith("\n", $view->success('foo'));
-        $this->assertStringStartsWith("\n", $view->info('foo'));
-        $this->assertStringStartsWith("\n", $view->error('foo'));
-    }
-
 
     /**
      * @var \michaelszymczak\CheckCheckIn\View\ShellView
@@ -84,6 +89,6 @@ class ShellViewShould extends \PHPUnit_Framework_TestCase
     private $view;
     public function setUp()
     {
-        $this->view = new ShellView(new ColorfulShell(), ShellView::INLINE);
+        $this->view = ShellView::createInline();
     }
 }
