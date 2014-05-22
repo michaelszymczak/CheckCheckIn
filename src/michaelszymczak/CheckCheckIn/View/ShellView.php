@@ -3,38 +3,49 @@ namespace michaelszymczak\CheckCheckIn\View;
 
 use \michaelszymczak\CheckCheckIn\Response\ResponseRenderer;
 
-class ShellView implements ResponseRenderer {
+abstract class ShellView implements ResponseRenderer {
 
-    private $cs;
-    private $linePolicy;
+    protected $cs;
 
-    const INLINE = "";
-    const NEWLINE = "\n";
 
-    public function __construct(ColorfulShell $cs, $linePolicy = self::NEWLINE)
+    public function __construct(ColorfulShell $cs)
     {
         $this->cs = $cs;
-        $this->linePolicy = $linePolicy;
+    }
+
+    public static function createInline()
+    {
+        return new InlineShellView(new ColorfulShell);
+    }
+
+    public static function createNewline()
+    {
+        return new NewlineShellView(new ColorfulShell);
+    }
+
+    public static function createDefault()
+    {
+        return new DefaultShellView(new ColorfulShell);
     }
 
     public function error($messages)
     {
-        return $this->linePolicy . $this->renderFragment($messages, ColorfulShell::WHITE_FG, ColorfulShell::RED_BG);
+        return $this->renderFragment($messages, ColorfulShell::WHITE_FG, ColorfulShell::RED_BG);
     }
 
     public function info($messages)
     {
-        return $this->linePolicy . $this->renderFragment($messages, ColorfulShell::GRAY_FG);
+        return $this->renderFragment($messages, ColorfulShell::GRAY_FG);
     }
 
     public function success($messages)
     {
-        return $this->linePolicy . $this->renderFragment($messages, ColorfulShell::WHITE_FG, ColorfulShell::GREEN_BG);
+        return $this->renderFragment($messages, ColorfulShell::WHITE_FG, ColorfulShell::GREEN_BG);
     }
 
     public function raw($messages)
     {
-        return $this->linePolicy . $this->renderFragment($messages);
+        return $this->renderFragment($messages);
     }
 
     /**
@@ -44,10 +55,16 @@ class ShellView implements ResponseRenderer {
      *
      * @return string Wrapped fragment
      */
-    private function renderFragment($fragments, $fgColor = null, $bgColor = null)
+    protected function renderFragment($fragments, $fgColor = null, $bgColor = null)
     {
-        $fragment = $fragments[0];
-        return $this->cs->colorize($fragment, $fgColor, $bgColor);
+        $wrapped = array();
+        foreach($fragments as $fragment) {
+            $wrapped[] = $this->cs->colorize($fragment, $fgColor, $bgColor);
+        }
+
+        return $this->mergeWrapped($wrapped);
     }
+
+    abstract protected function mergeWrapped($wrappedFragments);
 
 }

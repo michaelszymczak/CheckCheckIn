@@ -21,6 +21,36 @@ class ShellViewShould extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function createInlineInstance()
+    {
+        $view = ShellView::createInline();
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\ShellView', $view);
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\InlineShellView', $view);
+    }
+
+    /**
+     * @test
+     */
+    public function createNewlineInstance()
+    {
+        $view = ShellView::createNewline();
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\ShellView', $view);
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\NewlineShellView', $view);
+    }
+
+    /**
+     * @test
+     */
+    public function createDefaultInstance()
+    {
+        $view = ShellView::createDefault();
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\ShellView', $view);
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\View\DefaultShellView', $view);
+    }
+
+    /**
+     * @test
+     */
     public function useMeaningfulColorsWhenErrorRendered()
     {
         $this->assertSame("\033[1;37m\033[41mSome error message\033[0m", $this->view->error(array('Some error message')));
@@ -54,36 +84,11 @@ class ShellViewShould extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
-     */
-    public function returnEachMessageInlineIfExplicitlyConfiguredSoDuringCreation()
-    {
-        $view = new ShellView(new ColorfulShell(), ShellView::INLINE);
-        $this->assertStringStartsNotWith("\n", $view->raw(array('foo')));
-        $this->assertStringStartsNotWith("\n", $view->success(array('foo')));
-        $this->assertStringStartsNotWith("\n", $view->info(array('foo')));
-        $this->assertStringStartsNotWith("\n", $view->error(array('foo')));
-    }
-
-    /**
-     * @test
-     */
-    public function returnEachMessageInNewlineByDefault()
-    {
-        $view = new ShellView(new ColorfulShell());
-        $this->assertStringStartsWith("\n", $view->raw(array('foo')));
-        $this->assertStringStartsWith("\n", $view->success(array('foo')));
-        $this->assertStringStartsWith("\n", $view->info(array('foo')));
-        $this->assertStringStartsWith("\n", $view->error(array('foo')));
-    }
-
-
-    /**
      * @var \michaelszymczak\CheckCheckIn\View\ShellView
      */
     private $view;
     public function setUp()
     {
-        $this->view = new ShellView(new ColorfulShell(), ShellView::INLINE);
+        $this->view = ShellView::createInline();
     }
 }
