@@ -21,12 +21,12 @@ class ErrorResponseShould extends \PHPUnit_Framework_TestCase
      */
     public function renderItselfUsingErrorModeOfPassedRenderer()
     {
-        $response = new ErrorResponse('foo');
+        $response = new ErrorResponse(array('foo'));
 
         $renderer = new DummyRendererTest();
         $renderer->expect(array(
             'error' => function($message) {
-                    return "Error message: $message";
+                    return "Error message: {$message[0]}";
                 }
         ));
 
@@ -37,12 +37,12 @@ class ErrorResponseShould extends \PHPUnit_Framework_TestCase
      */
     public function renderItselfUsingErrorModeOfPassedRenderer2()
     {
-        $response = new ErrorResponse('bar');
+        $response = new ErrorResponse(array('bar'));
 
         $renderer = new DummyRendererTest();
         $renderer->expect(array(
             'error' => function($message) {
-                    return "<err>$message</err>";
+                    return "<err>{$message[0]}</err>";
                 }
         ));
 

@@ -12,18 +12,18 @@ class DummyRendererTest implements ResponseRenderer
         $this->methods = $methods;
     }
 
-    public function error($message)
+    public function error($messages)
     {
-        return $this->methods['error']($message);
+        return $this->methods['error']($messages);
     }
 
-    public function info($message)
+    public function info($messages)
     {
-        return $this->methods['info']($message);
+        return $this->methods['info']($messages);
     }
 
-    public function success($message)
+    public function success($messages)
     {
-        return $this->methods['success']($message);
+        return $this->methods['success']($messages);
     }
 }

@@ -17,24 +17,37 @@ class ShellView implements ResponseRenderer {
         $this->linePolicy = $linePolicy;
     }
 
-    public function error($message)
+    public function error($messages)
     {
-        return $this->linePolicy . $this->cs->colorize($message, ColorfulShell::WHITE_FG, ColorfulShell::RED_BG);
+        return $this->linePolicy . $this->renderFragment($messages, ColorfulShell::WHITE_FG, ColorfulShell::RED_BG);
     }
 
-    public function info($message)
+    public function info($messages)
     {
-        return $this->linePolicy . $this->cs->colorize($message, ColorfulShell::GRAY_FG);
+        return $this->linePolicy . $this->renderFragment($messages, ColorfulShell::GRAY_FG);
     }
 
-    public function success($message)
+    public function success($messages)
     {
-        return $this->linePolicy . $this->cs->colorize($message, ColorfulShell::WHITE_FG, ColorfulShell::GREEN_BG);
+        return $this->linePolicy . $this->renderFragment($messages, ColorfulShell::WHITE_FG, ColorfulShell::GREEN_BG);
     }
 
-    public function raw($message)
+    public function raw($messages)
     {
-        return $this->linePolicy . $this->cs->colorize($message);
+        return $this->linePolicy . $this->renderFragment($messages);
+    }
+
+    /**
+     * @param array       $fragments Fragment of the message
+     * @param null|string $fgColor   Foreground color
+     * @param null|string $bgColor   Background color
+     *
+     * @return string Wrapped fragment
+     */
+    private function renderFragment($fragments, $fgColor = null, $bgColor = null)
+    {
+        $fragment = $fragments[0];
+        return $this->cs->colorize($fragment, $fgColor, $bgColor);
     }
 
 }

@@ -21,12 +21,12 @@ class SuccessResponseShould extends \PHPUnit_Framework_TestCase
      */
     public function renderItselfUsingSuccessModeOfPassedRenderer()
     {
-        $response = new SuccessResponse('foo');
+        $response = new SuccessResponse(array('foo'));
 
         $renderer = new DummyRendererTest();
         $renderer->expect(array(
             'success' => function($message) {
-                    return "Success message: $message";
+                    return "Success message: {$message[0]}";
                 }
         ));
 
@@ -37,12 +37,12 @@ class SuccessResponseShould extends \PHPUnit_Framework_TestCase
      */
     public function renderItselfUsingSuccessModeOfPassedRenderer2()
     {
-        $response = new SuccessResponse('bar');
+        $response = new SuccessResponse(array('bar'));
 
         $renderer = new DummyRendererTest();
         $renderer->expect(array(
             'success' => function($message) {
-                    return "<success>$message</success>";
+                    return "<success>{$message[0]}</success>";
                 }
         ));
 

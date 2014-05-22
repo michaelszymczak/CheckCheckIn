@@ -21,12 +21,12 @@ class InfoResponseShould extends \PHPUnit_Framework_TestCase
      */
     public function renderItselfUsingInfoModeOfPassedRenderer()
     {
-        $response = new InfoResponse('foo');
+        $response = new InfoResponse(array('foo'));
 
         $renderer = new DummyRendererTest();
         $renderer->expect(array(
             'info' => function($message) {
-                    return "Info message: $message";
+                    return "Info message: {$message[0]}";
                 }
         ));
 
@@ -37,12 +37,12 @@ class InfoResponseShould extends \PHPUnit_Framework_TestCase
      */
     public function renderItselfUsingInfoModeOfPassedRenderer2()
     {
-        $response = new InfoResponse('bar');
+        $response = new InfoResponse(array('bar'));
 
         $renderer = new DummyRendererTest();
         $renderer->expect(array(
             'info' => function($message) {
-                    return "<info>$message</info>";
+                    return "<info>{$message[0]}</info>";
                 }
         ));
 
