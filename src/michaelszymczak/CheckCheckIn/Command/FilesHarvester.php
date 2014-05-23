@@ -1,5 +1,5 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Utils\Harvester;
+namespace michaelszymczak\CheckCheckIn\Command;
 use michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite;
 use \michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
 

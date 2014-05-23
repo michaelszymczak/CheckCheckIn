@@ -1,8 +1,8 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Utils\Harvester;
+namespace michaelszymczak\CheckCheckIn\Command\Git;
 use michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent;
 
-class GitStagedLeaf extends ExecutorAwareComponent
+class GitStaged extends ExecutorAwareComponent
 {
     public function getCommands()
     {

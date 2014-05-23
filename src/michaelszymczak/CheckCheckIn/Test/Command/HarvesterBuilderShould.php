@@ -1,12 +1,12 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Test\Utils\Harvester;
-use \michaelszymczak\CheckCheckIn\Utils\Harvester\HarvesterBuilder;
-use \michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester;
-use \michaelszymczak\CheckCheckIn\Utils\Harvester\GitModifiedLeaf;
-use \michaelszymczak\CheckCheckIn\Utils\Harvester\GitStagedLeaf;
+namespace michaelszymczak\CheckCheckIn\Test\Command;
+use \michaelszymczak\CheckCheckIn\Command\HarvesterBuilder;
+use \michaelszymczak\CheckCheckIn\Command\FilesHarvester;
+use \michaelszymczak\CheckCheckIn\Command\Git\GitModified;
+use \michaelszymczak\CheckCheckIn\Command\Git\GitStaged;
 use \Mockery as m;
 /**
- * @covers \michaelszymczak\CheckCheckIn\Utils\Harvester\HarvesterBuilder
+ * @covers \michaelszymczak\CheckCheckIn\Command\HarvesterBuilder
  *
  */
 class HarvesterBuilderShould extends \PHPUnit_Framework_TestCase
@@ -17,10 +17,10 @@ class HarvesterBuilderShould extends \PHPUnit_Framework_TestCase
     public function createHarvesterListingStagingFiles()
     {
         $harvester = $this->builder->toBeCommited();
-        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester', $harvester);
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Command\FilesHarvester', $harvester);
         $subharvesters = $harvester->getComponents();
         $this->assertCount(1, $subharvesters);
-        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Utils\Harvester\GitStagedLeaf', array_pop($subharvesters));
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Command\Git\GitStaged', array_pop($subharvesters));
     }
     /**
      * @test
@@ -28,12 +28,12 @@ class HarvesterBuilderShould extends \PHPUnit_Framework_TestCase
     public function createHarvesterListingAllModifiedFilesRegardlessOfTheirCurrentState()
     {
         $harvester = $this->builder->allCandidates();
-        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester', $harvester);
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Command\FilesHarvester', $harvester);
         $subharvesters = $harvester->getComponents();
         $this->assertCount(3, $subharvesters);
-        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Utils\Harvester\GitStagedLeaf', array_pop($subharvesters));
-        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Utils\Harvester\GitModifiedLeaf', array_pop($subharvesters));
-        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Utils\Harvester\GitUntrackedLeaf', array_pop($subharvesters));
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Command\Git\GitStaged', array_pop($subharvesters));
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Command\Git\GitModified', array_pop($subharvesters));
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Command\Git\GitUntracked', array_pop($subharvesters));
     }
 
     /**

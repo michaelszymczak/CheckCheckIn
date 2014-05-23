@@ -1,10 +1,10 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Test\Utils\Harvester;
+namespace michaelszymczak\CheckCheckIn\Test\Command;
 use michaelszymczak\CheckCheckIn\Test\Utils\Composite\CompositeTestCase;
-use michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester;
+use michaelszymczak\CheckCheckIn\Command\FilesHarvester;
 use \Mockery as m;
 /**
- * @covers \michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester
+ * @covers \michaelszymczak\CheckCheckIn\Command\FilesHarvester
  *
  */
 class FilesHarvesterShould extends CompositeTestCase

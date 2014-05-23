@@ -1,15 +1,15 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Test\Utils\Harvester;
+namespace michaelszymczak\CheckCheckIn\Test\Command\Git;
 use michaelszymczak\CheckCheckIn\Test\Utils\Composite\CompositeTestCase;
-use \michaelszymczak\CheckCheckIn\Utils\Harvester\GitModifiedLeaf;
+use \michaelszymczak\CheckCheckIn\Command\Git\GitModified;
 use \Mockery as m;
 /**
- * Class GitModifiedLeafShould.
+ * Class GitModifiedShould.
  *
- * @covers \michaelszymczak\CheckCheckIn\Utils\Harvester\GitModifiedLeaf
+ * @covers \michaelszymczak\CheckCheckIn\Command\Git\GitModified
  * @covers \michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent
  */
-class GitModifiedLeafShould extends CompositeTestCase
+class GitModifiedShould extends CompositeTestCase
 {
     /**
      * @test
@@ -44,6 +44,6 @@ class GitModifiedLeafShould extends CompositeTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->leaf = new GitModifiedLeaf();
+        $this->leaf = new GitModified();
     }
 }

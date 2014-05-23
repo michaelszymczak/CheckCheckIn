@@ -1,7 +1,9 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Utils\Harvester;
+namespace michaelszymczak\CheckCheckIn\Command;
 use \michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
-use \michaelszymczak\CheckCheckIn\Utils\Harvester\FilesHarvester;
+use \michaelszymczak\CheckCheckIn\Command\Git\GitUntracked;
+use \michaelszymczak\CheckCheckIn\Command\Git\GitModified;
+use \michaelszymczak\CheckCheckIn\Command\Git\GitStaged;
 
 class HarvesterBuilder
 {
@@ -14,16 +16,16 @@ class HarvesterBuilder
     public function toBeCommited()
     {
         $harvester = $this->prepareHarvester();
-        $harvester->addComponent(new GitStagedLeaf());
+        $harvester->addComponent(new GitStaged());
         return $harvester;
     }
 
     public function allCandidates()
     {
         $harvester = $this->prepareHarvester();
-        $harvester->addComponent(new GitUntrackedLeaf());
-        $harvester->addComponent(new GitModifiedLeaf());
-        $harvester->addComponent(new GitStagedLeaf());
+        $harvester->addComponent(new GitUntracked());
+        $harvester->addComponent(new GitModified());
+        $harvester->addComponent(new GitStaged());
         return $harvester;
     }
 
