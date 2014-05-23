@@ -20,7 +20,7 @@ class CommandCompositeWithComponentsAndExecutorShould extends CommandCompositeTe
      */
     public function ignoreConstructorExecutorIfAnotherPassedToMethod()
     {
-        $newExecutor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor');
+        $newExecutor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\Executor');
         $this->component->shouldReceive('process')->with($newExecutor)->once()->andReturn(array());
         $this->composite->process($newExecutor);
     }

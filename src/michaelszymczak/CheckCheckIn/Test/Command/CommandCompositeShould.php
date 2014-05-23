@@ -53,7 +53,7 @@ class CommandCompositeShould extends CommandCompositeTestCase
      */
     public function useCustomExecutorWhenPassedWhileGettingOne()
     {
-        $newExecutor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor');
+        $newExecutor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\Executor');
         $harvester = $this->getComposite();
         $this->assertSame($newExecutor, $harvester->getExecutor($newExecutor));
     }

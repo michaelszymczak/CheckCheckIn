@@ -8,7 +8,7 @@ abstract class CommandCompositeTestCase extends \PHPUnit_Framework_TestCase
     protected $executor;
     public function setUp()
     {
-        $this->executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor');
+        $this->executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\Executor');
     }
     public function tearDown()
     {

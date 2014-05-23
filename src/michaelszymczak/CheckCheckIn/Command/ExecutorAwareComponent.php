@@ -1,7 +1,7 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Command;
 
-use \michaelszymczak\CheckCheckIn\Command\Executor;
+use \michaelszymczak\CheckCheckIn\Command\Executor\Executor;
 
 abstract class ExecutorAwareComponent implements Processable
 {

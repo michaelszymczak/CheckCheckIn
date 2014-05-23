@@ -1,12 +1,14 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Test\Utils;
-use \michaelszymczak\CheckCheckIn\Command\Executor;
+
+use \michaelszymczak\CheckCheckIn\Command\Executor\StrictExecutor;
 
 /**
- * @covers \michaelszymczak\CheckCheckIn\Command\Executor
+ * @covers \michaelszymczak\CheckCheckIn\Command\Executor\StrictExecutor
+ * @covers \michaelszymczak\CheckCheckIn\Command\Executor\Executor
  *
  */
-class ExecutorShould extends \PHPUnit_Framework_TestCase
+class StrictExecutorShould extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -36,6 +38,6 @@ class ExecutorShould extends \PHPUnit_Framework_TestCase
     private $executor;
     public function setUp()
     {
-        $this->executor = new Executor();
+        $this->executor = new StrictExecutor();
     }
 }

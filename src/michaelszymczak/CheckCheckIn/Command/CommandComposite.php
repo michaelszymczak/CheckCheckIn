@@ -1,6 +1,8 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Command;
 
+use michaelszymczak\CheckCheckIn\Command\Executor\Executor;
+
 class CommandComposite implements Processable {
     protected $executor;
     protected $subcomponents;

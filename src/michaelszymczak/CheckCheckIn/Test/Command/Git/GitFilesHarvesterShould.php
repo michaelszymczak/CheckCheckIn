@@ -50,7 +50,7 @@ class GitFilesHarvesterShould extends \PHPUnit_Framework_TestCase
     private $executor;
     public function setUp()
     {
-        $this->executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor');
+        $this->executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\Executor');
         $this->builder = new GitFilesHarvester($this->executor);
     }
 }

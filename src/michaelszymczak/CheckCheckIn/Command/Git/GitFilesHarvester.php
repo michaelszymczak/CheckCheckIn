@@ -1,7 +1,7 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Command\Git;
 
-use michaelszymczak\CheckCheckIn\Command\Executor;
+use michaelszymczak\CheckCheckIn\Command\Executor\Executor;
 use michaelszymczak\CheckCheckIn\Command\CommandUniqueResultsComposite;
 
 class GitFilesHarvester
