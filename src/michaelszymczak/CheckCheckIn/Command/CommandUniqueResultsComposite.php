@@ -1,9 +1,7 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Command;
-use michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite;
-use \michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
 
-class FilesHarvester extends ExecutorAwareComposite
+class CommandUniqueResultsComposite extends CommandComposite
 {
     public function process(Executor $executor = null)
     {

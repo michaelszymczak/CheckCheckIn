@@ -1,10 +1,10 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Test\Utils\Composite;
+namespace michaelszymczak\CheckCheckIn\Test\Command;
 use \Mockery as m;
 /**
- * @covers \michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite
+ * @covers \michaelszymczak\CheckCheckIn\Command\CommandComposite
  */
-class ExecutorAwareCompositeShould extends CompositeTestCase
+class CommandCompositeShould extends CommandCompositeTestCase
 {
     /**
      * @test
@@ -53,7 +53,7 @@ class ExecutorAwareCompositeShould extends CompositeTestCase
      */
     public function useCustomExecutorWhenPassedWhileGettingOne()
     {
-        $newExecutor = m::mock('\michaelszymczak\CheckCheckIn\Utils\Executor\Executor');
+        $newExecutor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor');
         $harvester = $this->getComposite();
         $this->assertSame($newExecutor, $harvester->getExecutor($newExecutor));
     }

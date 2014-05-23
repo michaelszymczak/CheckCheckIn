@@ -1,6 +1,6 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Test\Command\Git;
-use michaelszymczak\CheckCheckIn\Test\Utils\Composite\CompositeTestCase;
+use michaelszymczak\CheckCheckIn\Test\Command\CommandCompositeTestCase;
 use \michaelszymczak\CheckCheckIn\Command\Git\GitStaged;
 use \Mockery as m;
 
@@ -8,9 +8,9 @@ use \Mockery as m;
  * Class GitStagedShould.
  *
  * @covers \michaelszymczak\CheckCheckIn\Command\Git\GitStaged
- * @covers \michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent
+ * @covers \michaelszymczak\CheckCheckIn\Command\ExecutorAwareComponent
  */
-class GitStagedShould extends CompositeTestCase
+class GitStagedShould extends CommandCompositeTestCase
 {
     /**
      * @test

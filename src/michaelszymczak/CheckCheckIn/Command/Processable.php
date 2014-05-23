@@ -1,5 +1,5 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Utils\Composite;
+namespace michaelszymczak\CheckCheckIn\Command;
 
 interface Processable
 {

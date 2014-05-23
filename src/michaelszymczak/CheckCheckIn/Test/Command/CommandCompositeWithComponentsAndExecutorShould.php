@@ -1,10 +1,10 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Test\Utils\Composite;
+namespace michaelszymczak\CheckCheckIn\Test\Command;
 use \Mockery as m;
 /**
- * @covers \michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite
+ * @covers \michaelszymczak\CheckCheckIn\Command\CommandComposite
  */
-class ExecutorAwareCompositeWithComponentsAndExecutorShould extends CompositeTestCase
+class CommandCompositeWithComponentsAndExecutorShould extends CommandCompositeTestCase
 {
 
     /**
@@ -20,7 +20,7 @@ class ExecutorAwareCompositeWithComponentsAndExecutorShould extends CompositeTes
      */
     public function ignoreConstructorExecutorIfAnotherPassedToMethod()
     {
-        $newExecutor = m::mock('\michaelszymczak\CheckCheckIn\Utils\Executor\Executor');
+        $newExecutor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor');
         $this->component->shouldReceive('process')->with($newExecutor)->once()->andReturn(array());
         $this->composite->process($newExecutor);
     }
@@ -38,7 +38,7 @@ class ExecutorAwareCompositeWithComponentsAndExecutorShould extends CompositeTes
     protected function getComposite()
     {
         $composite = parent::getComposite();
-        $this->component = m::mock('\michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComposite');
+        $this->component = m::mock('\michaelszymczak\CheckCheckIn\Command\CommandComposite');
         $composite->addComponent($this->component);
 
         return $composite;

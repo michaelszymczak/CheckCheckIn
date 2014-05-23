@@ -1,11 +1,10 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Command;
-use \michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
-use \michaelszymczak\CheckCheckIn\Command\Git\GitUntracked;
-use \michaelszymczak\CheckCheckIn\Command\Git\GitModified;
-use \michaelszymczak\CheckCheckIn\Command\Git\GitStaged;
+namespace michaelszymczak\CheckCheckIn\Command\Git;
 
-class HarvesterBuilder
+use michaelszymczak\CheckCheckIn\Command\Executor;
+use michaelszymczak\CheckCheckIn\Command\CommandUniqueResultsComposite;
+
+class GitFilesHarvester
 {
     private $executor;
     public function __construct(Executor $executor)
@@ -31,6 +30,6 @@ class HarvesterBuilder
 
     private function prepareHarvester()
     {
-        return new FilesHarvester($this->executor);
+        return new CommandUniqueResultsComposite($this->executor);
     }
 }

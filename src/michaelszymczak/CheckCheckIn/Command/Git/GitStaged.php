@@ -1,6 +1,6 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Command\Git;
-use michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent;
+use michaelszymczak\CheckCheckIn\Command\ExecutorAwareComponent;
 
 class GitStaged extends ExecutorAwareComponent
 {

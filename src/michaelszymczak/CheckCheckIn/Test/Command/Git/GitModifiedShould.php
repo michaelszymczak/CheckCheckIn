@@ -1,15 +1,15 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Test\Command\Git;
-use michaelszymczak\CheckCheckIn\Test\Utils\Composite\CompositeTestCase;
+use michaelszymczak\CheckCheckIn\Test\Command\CommandCompositeTestCase;
 use \michaelszymczak\CheckCheckIn\Command\Git\GitModified;
 use \Mockery as m;
 /**
  * Class GitModifiedShould.
  *
  * @covers \michaelszymczak\CheckCheckIn\Command\Git\GitModified
- * @covers \michaelszymczak\CheckCheckIn\Utils\Composite\ExecutorAwareComponent
+ * @covers \michaelszymczak\CheckCheckIn\Command\ExecutorAwareComponent
  */
-class GitModifiedShould extends CompositeTestCase
+class GitModifiedShould extends CommandCompositeTestCase
 {
     /**
      * @test

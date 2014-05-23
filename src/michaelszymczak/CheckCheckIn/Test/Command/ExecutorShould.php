@@ -1,9 +1,9 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Test\Utils;
-use \michaelszymczak\CheckCheckIn\Utils\Executor\Executor;
+use \michaelszymczak\CheckCheckIn\Command\Executor;
 
 /**
- * @covers \michaelszymczak\CheckCheckIn\Utils\Executor\Executor
+ * @covers \michaelszymczak\CheckCheckIn\Command\Executor
  *
  */
 class ExecutorShould extends \PHPUnit_Framework_TestCase
