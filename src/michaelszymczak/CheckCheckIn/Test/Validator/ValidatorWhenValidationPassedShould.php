@@ -57,10 +57,7 @@ class ValidatorWhenValidationPassedShould extends \PHPUnit_Framework_TestCase
     {
         $this->validator->validate(self::FILE_TO_CHECK);
 
-        $descriptionResponse = $this->validator->getViolationDescritpion();
-
-        $this->assertInstanceOf('michaelszymczak\CheckCheckIn\Response\InfoResponse', $descriptionResponse);
-        $this->assertEmpty($descriptionResponse->getMessage());
+        $this->assertEmpty($this->validator->getViolationnResponses());
     }
 
     private $validator;
