@@ -33,32 +33,34 @@ class ValidatorWhenValidationPassedShould extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('michaelszymczak\CheckCheckIn\Response\SuccessResponse', $statusResponseWithFilename);
         $this->assertSame(array('=> '. self::FILE_TO_CHECK .': '), $statusResponseWithFilename->getMessage());
     }
+
     /**
      * @test
      */
-    public function returnInfoResponseWithPassedValidationAgainstUsedTool()
+    public function returnInfoResponseAboutToolsUsed()
     {
         $this->validator->validate(self::FILE_TO_CHECK);
 
         $statusResponses = $this->validator->getStatusResponses();
-        $statusResponseWithUsedTool = $statusResponses[1];
+        $statusResponseOfFirstTool = $statusResponses[1];
+        $statusResponseOfSecondTool = $statusResponses[2];
 
-        $this->assertInstanceOf('michaelszymczak\CheckCheckIn\Response\InfoResponse', $statusResponseWithUsedTool);
-        $this->assertSame(array('validatorFoo [PASSED]'), $statusResponseWithUsedTool->getMessage());
+        $this->assertInstanceOf('michaelszymczak\CheckCheckIn\Response\InfoResponse', $statusResponseOfFirstTool);
+        $this->assertInstanceOf('michaelszymczak\CheckCheckIn\Response\InfoResponse', $statusResponseOfSecondTool);
+        $this->assertSame(array('validatorFoo [PASSED]'), $statusResponseOfFirstTool->getMessage());
+        $this->assertSame(array('validatorBar [PASSED]'), $statusResponseOfSecondTool->getMessage());
     }
-
     /**
      * @test
      */
-    public function returnInfoResponseContainingAllUsedTools()
+    public function returnNotInformationAboutViolation()
     {
         $this->validator->validate(self::FILE_TO_CHECK);
 
-        $statusResponses = $this->validator->getStatusResponses();
-        $statusResponseWithUsedTool = $statusResponses[2];
+        $descriptionResponse = $this->validator->getViolationDescritpion();
 
-        $this->assertInstanceOf('michaelszymczak\CheckCheckIn\Response\InfoResponse', $statusResponseWithUsedTool);
-        $this->assertSame(array('validatorBar [PASSED]'), $statusResponseWithUsedTool->getMessage());
+        $this->assertInstanceOf('michaelszymczak\CheckCheckIn\Response\InfoResponse', $descriptionResponse);
+        $this->assertEmpty($descriptionResponse->getMessage());
     }
 
     private $validator;

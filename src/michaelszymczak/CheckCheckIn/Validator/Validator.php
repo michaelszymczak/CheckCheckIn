@@ -2,6 +2,7 @@
 namespace michaelszymczak\CheckCheckIn\Validator;
 
 use \michaelszymczak\CheckCheckIn\Command\Executor\BadNewsExecutor;
+use michaelszymczak\CheckCheckIn\Response\ErrorResponse;
 use michaelszymczak\CheckCheckIn\Response\InfoResponse;
 use michaelszymczak\CheckCheckIn\Response\SuccessResponse;
 
@@ -30,5 +31,9 @@ class Validator {
     public function getStatusResponses()
     {
         return $this->statusResponses;
+    }
+    public function getViolationDescritpion()
+    {
+        return new InfoResponse(array());
     }
 }
