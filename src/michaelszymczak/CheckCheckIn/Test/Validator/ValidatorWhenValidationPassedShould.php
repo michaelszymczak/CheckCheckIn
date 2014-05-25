@@ -57,7 +57,7 @@ class ValidatorWhenValidationPassedShould extends \PHPUnit_Framework_TestCase
     {
         $this->validator->validate(self::FILE_TO_CHECK);
 
-        $this->assertEmpty($this->validator->getViolationnResponses());
+        $this->assertEmpty($this->validator->getViolationResponses());
     }
 
     private $validator;

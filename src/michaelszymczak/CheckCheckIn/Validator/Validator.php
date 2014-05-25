@@ -10,7 +10,7 @@ class Validator {
     private $executor;
     private $patterns;
     private $statusResponses = array();
-    private $detailedResponses = array();
+    private $violationResponses = array();
     public function __construct(BadNewsExecutor $executor, $patterns)
     {
         $this->executor = $executor;
@@ -21,7 +21,7 @@ class Validator {
     {
         $allOK = true;
         $this->statusResponses[0] = null; // filename placeholder
-        $this->detailedResponses = array();
+        $this->violationResponses = array();
         foreach ($this->patterns as $tool => $pattern) {
             $fullCmd = str_replace('####', $filename, $pattern);
             $result = $this->executor->exec($fullCmd);
@@ -30,7 +30,7 @@ class Validator {
             } else {
                 $allOK = false;
                 $this->statusResponses[] = new InfoResponse("{$tool} [FAILED]");
-                $this->detailedResponses[] = new InfoResponse($result);
+                $this->violationResponses[] = new InfoResponse($result);
             }
         }
         $this->statusResponses[0] = $allOK ? new SuccessResponse("=> {$filename}: ") : new ErrorResponse("=> {$filename}: ");
@@ -42,8 +42,9 @@ class Validator {
     {
         return $this->statusResponses;
     }
-    public function getViolationnResponses()
+
+    public function getViolationResponses()
     {
-        return $this->detailedResponses;
+        return $this->violationResponses;
     }
 }

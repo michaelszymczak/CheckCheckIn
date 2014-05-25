@@ -62,7 +62,7 @@ class ValidatorWhenValidationFailedShould extends \PHPUnit_Framework_TestCase
     {
         $this->validator->validate(self::FILE_TO_CHECK);
 
-        $descriptionResponses = $this->validator->getViolationnResponses();
+        $descriptionResponses = $this->validator->getViolationResponses();
         $firstToolResponses = $descriptionResponses[0];
         $secondToolResponses = $descriptionResponses[1];
 
