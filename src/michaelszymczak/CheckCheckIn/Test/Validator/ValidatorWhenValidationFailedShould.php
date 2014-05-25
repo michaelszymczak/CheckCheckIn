@@ -72,23 +72,6 @@ class ValidatorWhenValidationFailedShould extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('if you check against some option', 'you will find some problems'), $secondToolResponses->getMessage());
     }
 
-    /**
-     * @test
-     */
-    public function returnDetailsAboutAllViolation()
-    {
-        $this->validator->validate(self::FILE_TO_CHECK);
-        $responses = $this->validator->getViolationnResponses();
-        $violationDetails1 = $responses[0];
-        $violationDetails2 = $responses[1];
-        $this->assertInstanceOf('michaelszymczak\CheckCheckIn\Response\InfoResponse', $violationDetails1);
-        $this->assertInstanceOf('michaelszymczak\CheckCheckIn\Response\InfoResponse', $violationDetails2);
-        $expectedViolationDetails = array('some problem title', 'some problem detailed description', $violationDetails1->getMessage());
-        $violationDetails2 = array(array('if you check against some option', 'you will find some problems'), $violationDetails2->getMessage());
-
-//        $this->assertEquals($expectedViolationDetails, $violationDetails);
-    }
-
 
     private $validator;
 
