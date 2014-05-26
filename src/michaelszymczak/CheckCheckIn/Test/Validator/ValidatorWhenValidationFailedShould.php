@@ -77,7 +77,7 @@ class ValidatorWhenValidationFailedShould extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\BadNewsExecutor');
+        $executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\BadNewsOnlyExecutor');
         $executor->shouldReceive('exec')->with('forgivingCheckTool ' . self::FILE_TO_CHECK)->andReturn(array());
         $executor->shouldReceive('exec')->with('seriousCheckTool.sh ' . self::FILE_TO_CHECK)->andReturn(array('some problem title', 'some problem detailed description'));
         $executor->shouldReceive('exec')->with('anotherSeriousCheckTool ' . self::FILE_TO_CHECK . ' --someoption')->andReturn(array('if you check against some option', 'you will find some problems'));

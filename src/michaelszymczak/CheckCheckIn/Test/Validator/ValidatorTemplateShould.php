@@ -38,6 +38,36 @@ class ValidatorTemplateShould extends \PHPUnit_Framework_TestCase
         $this->assertContains("Some problem description", $output);
         $this->assertContains("lorem ipsum", $output);
     }
+    /**
+     * @test
+     */
+    public function returnSuccessWhenSuccessfulValidationOverallResult()
+    {
+        $this->validator->dummyValidationResultFor['Foo.java'] = true;
+
+        $this->validatorTemplate->validate('Foo.java');
+
+        $this->assertTrue($this->validatorTemplate->areValid());
+    }
+    /**
+     * @test
+     */
+    public function returnFalseWhenFailedValidationOverallResult()
+    {
+        $this->validator->dummyValidationResultFor['Foo.java'] = false;
+
+        $this->validatorTemplate->validate('Foo.java');
+
+        $this->assertFalse($this->validatorTemplate->areValid());
+    }
+    /**
+     * @test
+     */
+    public function storeValidator()
+    {
+        $this->assertSame($this->validator, $this->validatorTemplate->getValidator());
+    }
+
 
     private $validatorTemplate;
     public function setUp()
@@ -67,8 +97,10 @@ class ValidatorTemplateShould extends \PHPUnit_Framework_TestCase
 
 
 class DummyValidator extends Validator {
-    public $dummyStatusResponsesFor;
-    public $dummyViolationResponsesFor;
+    public $dummyStatusResponsesFor = array();
+    public $dummyViolationResponsesFor = array();
+    public $dummyValidationResultFor = array();
+
     private $validateFilenameArgument = null;
 
     public function __construct()
@@ -92,5 +124,9 @@ class DummyValidator extends Validator {
             throw new \RuntimeException("filename not validated yet");
         }
         return $this->dummyViolationResponsesFor[$this->validateFilenameArgument];
+    }
+    public function areValid()
+    {
+        return $this->dummyValidationResultFor[$this->validateFilenameArgument];
     }
 }
