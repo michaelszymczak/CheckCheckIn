@@ -35,4 +35,8 @@ class ValidatorTemplate {
     {
         return $this->validator->areValid();
     }
+    public function getValidator()
+    {
+        return $this->validator;
+    }
 }

@@ -25,6 +25,17 @@ class ValidatorShould extends \PHPUnit_Framework_TestCase {
     /**
      * @test
      */
+    public function storePassedPattern()
+    {
+        $validator1 = new Validator($this->getExecutor(), array('foo' => 'bar'));
+        $validator2 = new Validator($this->getExecutor(), array('validatorA' => 'foo #### bar', 'toolB' => 'bar ####'));
+
+        $this->assertSame(array('foo' => 'bar'), $validator1->getPatterns());
+        $this->assertSame(array('validatorA' => 'foo #### bar', 'toolB' => 'bar ####'), $validator2->getPatterns());
+    }
+    /**
+     * @test
+     */
     public function validatePassedFileAgainstAllValidators()
     {
         $executor = $this->getExecutor();

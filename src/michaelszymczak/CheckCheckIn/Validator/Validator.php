@@ -53,4 +53,8 @@ class Validator {
     {
         return $this->areValid;
     }
+    public function getPatterns()
+    {
+        return $this->patterns;
+    }
 }

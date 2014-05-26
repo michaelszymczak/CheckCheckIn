@@ -60,6 +60,13 @@ class ValidatorTemplateShould extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($this->validatorTemplate->areValid());
     }
+    /**
+     * @test
+     */
+    public function storeValidator()
+    {
+        $this->assertSame($this->validator, $this->validatorTemplate->getValidator());
+    }
 
 
     private $validatorTemplate;
