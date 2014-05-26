@@ -11,6 +11,7 @@ class Validator {
     private $patterns;
     private $statusResponses = array();
     private $violationResponses = array();
+    private $areValid = true;
     public function __construct(BadNewsOnlyExecutor $executor, $patterns)
     {
         $this->executor = $executor;
@@ -29,6 +30,7 @@ class Validator {
                 $this->statusResponses[] = new InfoResponse("{$tool} [PASSED]");
             } else {
                 $allOK = false;
+                $this->areValid = false;
                 $this->statusResponses[] = new InfoResponse("{$tool} [FAILED]");
                 $this->violationResponses[] = new InfoResponse($result);
             }
@@ -46,5 +48,9 @@ class Validator {
     public function getViolationResponses()
     {
         return $this->violationResponses;
+    }
+    public function areValid()
+    {
+        return $this->areValid;
     }
 }

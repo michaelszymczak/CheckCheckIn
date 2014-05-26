@@ -23,11 +23,16 @@ class ValidatorTemplate {
         foreach($this->validator->getStatusResponses() as $response) {
             $output .= $response->render($this->viewForStatuses) . " ";
         }
+        $output .= "\n";
         foreach($this->validator->getViolationResponses() as $response) {
             $output .= $response->render($this->viewForViolations);
         }
         $output .= "\n";
 
         return $output;
+    }
+    public function areValid()
+    {
+        return $this->validator->areValid();
     }
 }
