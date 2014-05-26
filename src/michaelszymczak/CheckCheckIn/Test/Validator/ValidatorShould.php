@@ -48,16 +48,53 @@ class ValidatorShould extends \PHPUnit_Framework_TestCase {
         $this->assertSame(array('=> some/path/file.js: '), $statusResponseWithFilename->getMessage());
     }
 
+    /**
+     * @test
+     */
+    public function clearStatusesAndViolationResponsesBeforeEachValidation()
+    {
+        $validator = new Validator($this->getViolationDetectedExecutor(), array('tool' => 'tool ####'));
+
+        $this->assertNoResponses($validator);
+
+        $validator->validate('Foo.java');
+
+        $this->assertCount(2, $validator->getStatusResponses());
+        $this->assertCount(1, $validator->getViolationResponses());
+
+        $validator->validate('Bar.java');
+
+        $this->assertCount(2, $validator->getStatusResponses());
+        $this->assertCount(1, $validator->getViolationResponses());
+
+    }
+
     private $executor;
     public function setUp()
     {
-        $this->executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\BadNewsExecutor');
+        $this->executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\BadNewsOnlyExecutor');
     }
 
     public function tearDown()
     {
         m::close();
     }
+
+    private function assertNoResponses($validator)
+    {
+        $this->assertEmpty($validator->getStatusResponses());
+        $this->assertEmpty($validator->getViolationResponses());
+    }
+
+    private function getViolationDetectedExecutor()
+    {
+        $executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\BadNewsOnlyExecutor');
+        $executor->shouldReceive('exec')->andReturn(array('some violation', 'bbb'));
+
+        return $executor;
+    }
+
+
 
 
 }

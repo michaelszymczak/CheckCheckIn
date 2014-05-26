@@ -64,7 +64,7 @@ class ValidatorWhenValidationPassedShould extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\BadNewsExecutor');
+        $executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\BadNewsOnlyExecutor');
         $executor->shouldReceive('exec')->with('check ' . self::FILE_TO_CHECK)->andReturn(array());
         $executor->shouldReceive('exec')->with('check2 ' . self::FILE_TO_CHECK)->andReturn(array());
 

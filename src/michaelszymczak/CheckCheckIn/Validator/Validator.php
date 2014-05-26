@@ -1,7 +1,7 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Validator;
 
-use \michaelszymczak\CheckCheckIn\Command\Executor\BadNewsExecutor;
+use \michaelszymczak\CheckCheckIn\Command\Executor\BadNewsOnlyExecutor;
 use michaelszymczak\CheckCheckIn\Response\ErrorResponse;
 use michaelszymczak\CheckCheckIn\Response\InfoResponse;
 use michaelszymczak\CheckCheckIn\Response\SuccessResponse;
@@ -11,7 +11,7 @@ class Validator {
     private $patterns;
     private $statusResponses = array();
     private $violationResponses = array();
-    public function __construct(BadNewsExecutor $executor, $patterns)
+    public function __construct(BadNewsOnlyExecutor $executor, $patterns)
     {
         $this->executor = $executor;
         $this->patterns = $patterns;
@@ -20,7 +20,7 @@ class Validator {
     public function validate($filename)
     {
         $allOK = true;
-        $this->statusResponses[0] = null; // filename placeholder
+        $this->statusResponses = array(0 => null); // placeholder for the first entry - filename
         $this->violationResponses = array();
         foreach ($this->patterns as $tool => $pattern) {
             $fullCmd = str_replace('####', $filename, $pattern);

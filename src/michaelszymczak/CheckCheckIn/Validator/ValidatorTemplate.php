@@ -1,11 +1,6 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Validator;
 
-use \michaelszymczak\CheckCheckIn\Command\Executor\BadNewsExecutor;
-use michaelszymczak\CheckCheckIn\Response\ErrorResponse;
-use michaelszymczak\CheckCheckIn\Response\InfoResponse;
-use michaelszymczak\CheckCheckIn\Response\SuccessResponse;
-use michaelszymczak\CheckCheckIn\View\DefaultShellView;
 use michaelszymczak\CheckCheckIn\View\ShellView;
 
 class ValidatorTemplate {
