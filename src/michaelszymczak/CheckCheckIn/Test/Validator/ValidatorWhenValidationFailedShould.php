@@ -16,14 +16,6 @@ class ValidatorWhenValidationFailedShould extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function returnFalseAsValidationResult()
-    {
-        $this->assertFalse($this->validator->validate(self::FILE_TO_CHECK));
-    }
-
-    /**
-     * @test
-     */
     public function returnErrorResponseWithFileName()
     {
         $this->validator->validate(self::FILE_TO_CHECK);

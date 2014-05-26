@@ -16,13 +16,6 @@ class ValidatorWhenValidationPassedShould extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function returnTrueAfterValidation()
-    {
-        $this->assertTrue($this->validator->validate(self::FILE_TO_CHECK));
-    }
-    /**
-     * @test
-     */
     public function returnSuccessResponseWithFileName()
     {
         $this->validator->validate(self::FILE_TO_CHECK);

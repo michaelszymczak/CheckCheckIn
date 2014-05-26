@@ -3,5 +3,4 @@ vendor/*
 /.idea
 
 /.vagrant
-Vagrantfile
 /provisioning
