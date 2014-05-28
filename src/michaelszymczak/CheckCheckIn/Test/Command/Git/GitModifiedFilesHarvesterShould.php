@@ -1,7 +1,9 @@
 <?php
-namespace michaelszymczak\CheckCheckIn\Test\Command;
+namespace michaelszymczak\CheckCheckIn\Test\Command\Git;
+
 use \michaelszymczak\CheckCheckIn\Command\Git\GitModifiedFilesHarvester;
 use \Mockery as m;
+
 /**
  * @covers \michaelszymczak\CheckCheckIn\Command\Git\GitModifiedFilesHarvester
  * @covers \michaelszymczak\CheckCheckIn\Command\Git\GitFilesHarvester
@@ -21,7 +23,7 @@ class GitModifiedFilesHarvesterShould extends \PHPUnit_Framework_TestCase
      */
     public function createHarvesterListingAllModifiedFilesRegardlessOfTheirCurrentState()
     {
-        $this->repositoryContains(array(
+        $this->repoSimulatingExecutor->configure(array(
             'modified' => array('modified.txt', 'staged.txt'),
             'staged' => array('staged.txt'),
             'untracked' => array('untracked.txt')
@@ -34,7 +36,7 @@ class GitModifiedFilesHarvesterShould extends \PHPUnit_Framework_TestCase
      */
     public function createHarvesterListingAllModifiedFilesRegardlessOfTheirCurrentState2()
     {
-        $this->repositoryContains(array(
+        $this->repoSimulatingExecutor->configure(array(
             'modified' => array('modified.txt'),
             'staged' => array(),
             'untracked' => array('foo/bar/foo.txt')
@@ -44,18 +46,13 @@ class GitModifiedFilesHarvesterShould extends \PHPUnit_Framework_TestCase
     }
 
 
-    private $executor;
+    private $repoSimulatingExecutor;
+    private $harvester;
+
     public function setUp()
     {
-        $this->executor = m::mock('\michaelszymczak\CheckCheckIn\Command\Executor\Executor');
-        $this->harvester = new GitModifiedFilesHarvester($this->executor);
-    }
-
-    private function repositoryContains($files)
-    {
-        $this->executor->shouldReceive('exec')->with('git ls-files --modified')->andReturn($files['modified']);
-        $this->executor->shouldReceive('exec')->with('git diff-index --cached --name-only HEAD')->andReturn($files['staged']);
-        $this->executor->shouldReceive('exec')->with('git ls-files --other --exclude-standard')->andReturn($files['untracked']);
+        $this->repoSimulatingExecutor = new ExecutorSimulatingRepositoryStateTest();
+        $this->harvester = new GitModifiedFilesHarvester($this->repoSimulatingExecutor);
     }
 }
 
