@@ -16,9 +16,9 @@ class DisplayShould extends \PHPUnit_Framework_TestCase
      */
     public function displayMessageUsingConfigStdoutFunction()
     {
-        $display = new Display(new Config(
-            array('stdout' => function($msg) { echo "Stdout function displays: {$msg}"; })
-        ));
+        $display = new Display(
+            $this->prepareConfig( array('stdout' => function($msg) { echo "Stdout function displays: {$msg}"; }))
+        );
 
         $display->display('foo');
 
@@ -51,14 +51,13 @@ class DisplayShould extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $config = new Config(array());
-        $this->display = new Display($config);
     }
 
     private function createDisplayWithConfiguredMessage($params)
     {
         $params['stdout'] = function ($msg) { echo $msg; };
-        $display = new Display(new Config($params));
+        $config = $this->prepareConfig($params);
+        $display = new Display($config);
 
         return $display;
     }
@@ -70,5 +69,23 @@ class DisplayShould extends \PHPUnit_Framework_TestCase
     private function expectFailureResponseContaining($message)
     {
         $this->expectOutputString("\n\033[1;37m\033[41m{$message}\033[0m");
+    }
+
+    private function prepareConfig($config = array(), $groups = array())
+    {
+        $defaultConfig = array(
+            'success' => array('foo'),
+            'failure' => array('bar'),
+            'blacklist' => array('baz'),
+        );
+
+        foreach($config as $key => $value) {
+            $defaultConfig[$key] = $value;
+        }
+
+        return new Config(array(
+            'config' => $defaultConfig,
+            'groups' => $groups
+        ));
     }
 }
