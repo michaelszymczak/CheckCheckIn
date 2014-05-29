@@ -1,19 +1,16 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Configuration;
 
-use michaelszymczak\CheckCheckIn\View\Display;
-
 class Config {
 
     private $config = array();
     private $groups = array();
-    private $display;
 
     public function __construct($params)
     {
         $this->createConfigBasedOnConfigParams($params);
-        $this->createGroupsBasedOnGroupParams($params);
-        $this->display = new Display($this);
+        $this->groups = $params['groups'];
+
     }
 
     public function getSuccessMessage()
@@ -39,17 +36,6 @@ class Config {
     public function getGroups()
     {
         return $this->groups;
-    }
-    public function getDisplay()
-    {
-        return $this->display;
-    }
-
-    private function createGroupsBasedOnGroupParams($params)
-    {
-        foreach ($params['groups'] as $groupConfig) {
-            $this->groups[] = new Group($groupConfig);
-        }
     }
 
     private function createConfigBasedOnConfigParams($params)
