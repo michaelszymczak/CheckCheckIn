@@ -61,13 +61,14 @@ class ConfigShould extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function useStdoutFunctionFromInputToProcessDisplaying()
+    public function provideStdoutFunctionToDisplayMessages()
     {
         $config = new Config(array('stdout' =>
             function($msg) { echo "@@@{$msg}@@@"; }
         ));
+        $stdOutFunction = $config->getStdout();
 
-        $config->stdout('foo');
+        $stdOutFunction('foo');
 
         $this->expectOutputString('@@@foo@@@');
     }
@@ -75,11 +76,12 @@ class ConfigShould extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function useDefaultEchoFunctionIfNoStdoutFunctionPassedInInputParameters()
+    public function provideStdoutFunctionToDisplayMessagesIfNoStdoutFunctionPassed()
     {
         $config = new Config(array());
+        $stdOutFunction = $config->getStdout();
 
-        $config->stdout('bar');
+        $stdOutFunction('bar');
 
         $this->expectOutputString('bar');
 

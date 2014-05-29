@@ -18,15 +18,14 @@ class Config {
         }
     }
 
-    public function stdout($message)
-    {
-        $stdout = $this->params['stdout'];
-        $stdout($message);
-    }
-
     public function getSuccessMessage()
     {
         return $this->params['success'];
+    }
+
+    public function getStdout()
+    {
+        return $this->params['stdout'];
     }
 
     public function getFailureMessage()
