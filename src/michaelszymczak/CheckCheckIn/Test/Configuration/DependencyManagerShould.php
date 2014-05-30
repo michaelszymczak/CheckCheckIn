@@ -91,6 +91,20 @@ class DependencyManagerShould extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Command\Git\GitModifiedFilesHarvester', $retriever->getHarvester());
     }
+    /**
+     * @test
+     *
+     * @covers \michaelszymczak\CheckCheckIn\Validator\ValidatorFactory::getManager
+     */
+    public function createValidatorFactory()
+    {
+        $manager = $this->createDMWithConfigParams(array('candidates' => 'modified'));
+
+        $validatorFactory = $manager->getValidatorFactory();
+
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Validator\ValidatorFactory', $validatorFactory);
+        $this->assertSame($manager, $validatorFactory->getManager());
+    }
 
     private function assertCreatedGroupsWithConfiguration($configuration, $groups)
     {

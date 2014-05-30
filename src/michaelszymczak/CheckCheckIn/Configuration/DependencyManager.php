@@ -3,6 +3,7 @@ namespace michaelszymczak\CheckCheckIn\Configuration;
 
 use michaelszymczak\CheckCheckIn\Command\Git\FilteredGitFilesRetriever;
 use michaelszymczak\CheckCheckIn\Command\Git\GitFilesHarvesterFactory;
+use michaelszymczak\CheckCheckIn\Validator\ValidatorFactory;
 use michaelszymczak\CheckCheckIn\View\Display;
 
 class DependencyManager {
@@ -11,12 +12,14 @@ class DependencyManager {
     private $groups;
     private $config;
     private $gitFilesHarvesterFactory;
+    private $validatorFactory;
 
     public function __construct(Config $config)
     {
         $this->config = $config;
         $this->display = new Display($config);
         $this->gitFilesHarvesterFactory = new GitFilesHarvesterFactory();
+        $this->validatorFactory = new ValidatorFactory($this);
         $this->createGroupObjectssBasedOnConfig($config);
     }
 
@@ -24,10 +27,12 @@ class DependencyManager {
     {
         return $this->display;
     }
+
     public function getGroups()
     {
         return $this->groups;
     }
+
     public function getFilteredGitFilesRetriever()
     {
         if ($this->config->getCandidates() === Config::CANDIDATES_STAGED) {
@@ -38,6 +43,11 @@ class DependencyManager {
         }
 
         return new FilteredGitFilesRetriever($harvester, $this->config->getBlacklist());
+    }
+
+    public function getValidatorFactory()
+    {
+        return $this->validatorFactory;
     }
 
     private function createGroupObjectssBasedOnConfig($config)

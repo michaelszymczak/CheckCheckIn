@@ -44,22 +44,44 @@ class ValidatorFactoryShould extends \PHPUnit_Framework_TestCase
         $multipleFilesValidator = $this->factory->createMultipleFilesValidator();
 
         $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Validator\MultipleFilesValidator', $multipleFilesValidator);
-        $this->assertSame($this->manager->getDisplay(), $multipleFilesValidator->getDisplay());
+        $this->assertSame($this->display, $multipleFilesValidator->getDisplay());
 
+    }
+    /**
+     * @test
+     * @covers \michaelszymczak\CheckCheckIn\Validator\GroupValidator::getMultipleFilesValidator
+     * @covers \michaelszymczak\CheckCheckIn\Validator\GroupValidator::getFilesRetriever
+     */
+    public function createGroupValidator()
+    {
+        $groupValidator = $this->factory->createGroupValidator();
+
+        $this->groupValidatorCreatedWithCorrectManagerAndFactoryDependencies($groupValidator);
     }
 
 
     private $factory;
+    private $display;
     private $manager;
     public function setUp()
     {
         $this->manager = new DependencyManager(new Config(array('config' => array(), 'groups' => array())));
-
+        $this->display = $this->manager->getDisplay();
         $this->factory = new ValidatorFactory($this->manager);
     }
 
     private function createGroupWithTools($tools)
     {
         return new Group(array('files' => array(), 'tools' => $tools));
+    }
+
+
+    private function groupValidatorCreatedWithCorrectManagerAndFactoryDependencies($groupValidator)
+    {
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Validator\GroupValidator', $groupValidator);
+        $this->assertSame($this->manager->getDisplay(), $groupValidator->getMultipleFilesValidator()->getDisplay());
+        $this->assertSame($this->manager->getFilteredGitFilesRetriever()->getHarvester(), $groupValidator->getFilesRetriever()->getHarvester());
+        $this->assertSame($this->manager->getFilteredGitFilesRetriever()->getBlacklist(), $groupValidator->getFilesRetriever()->getBlacklist());
+        $this->assertSame($this->factory, $groupValidator->getValidatorFactory());
     }
 }
