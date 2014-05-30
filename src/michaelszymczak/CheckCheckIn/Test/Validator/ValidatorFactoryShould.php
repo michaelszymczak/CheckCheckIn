@@ -5,7 +5,6 @@ use michaelszymczak\CheckCheckIn\Configuration\DependencyManager;
 use michaelszymczak\CheckCheckIn\Configuration\Group;
 use \michaelszymczak\CheckCheckIn\Validator\ValidatorFactory;
 use michaelszymczak\CheckCheckIn\Configuration\Config;
-
 /**
  * Class ValidatorShould
  *

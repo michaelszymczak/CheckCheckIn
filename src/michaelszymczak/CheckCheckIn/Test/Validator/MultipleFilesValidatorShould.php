@@ -2,8 +2,9 @@
 namespace michaelszymczak\CheckCheckIn\Test\Validator;
 
 use \michaelszymczak\CheckCheckIn\Validator\MultipleFilesValidator;
+
 use \michaelszymczak\CheckCheckIn\Validator\FileValidator;
-use \michaelszymczak\CheckCheckIn\View\Display;
+
 use \Mockery as m;
 
 /**

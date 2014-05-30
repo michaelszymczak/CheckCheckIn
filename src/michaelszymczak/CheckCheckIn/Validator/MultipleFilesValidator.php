@@ -1,6 +1,7 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Validator;
 
+
 use \michaelszymczak\CheckCheckIn\View\Display;
 
 class MultipleFilesValidator {
