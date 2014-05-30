@@ -28,6 +28,19 @@ class DependencyManagerShould extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function createItselfUsingConfigParameters()
+    {
+        $parameters = $this->inputHelper->prepare(array('success' => array('correct config proof')));
+
+        $manager = DependencyManager::createFromParameters($parameters);
+
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Configuration\DependencyManager', $manager);
+        $this->assertSame(array('correct config proof'), $manager->getConfig()->getSuccessMessage());
+    }
+
+    /**
+     * @test
+     */
     public function createGroupBasedOnGroupParameters()
     {
 

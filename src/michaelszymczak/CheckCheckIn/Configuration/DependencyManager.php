@@ -23,6 +23,11 @@ class DependencyManager {
         $this->createGroupObjectssBasedOnConfig($config);
     }
 
+    public static function createFromParameters($parameters)
+    {
+        return new DependencyManager(new Config($parameters));
+    }
+
     public function getDisplay()
     {
         return $this->display;
@@ -31,6 +36,10 @@ class DependencyManager {
     public function getGroups()
     {
         return $this->groups;
+    }
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     public function getFilteredGitFilesRetriever()
