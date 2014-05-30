@@ -1,8 +1,10 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Test\Validator;
 
+use michaelszymczak\CheckCheckIn\Configuration\DependencyManager;
 use michaelszymczak\CheckCheckIn\Configuration\Group;
 use \michaelszymczak\CheckCheckIn\Validator\ValidatorFactory;
+use michaelszymczak\CheckCheckIn\Configuration\Config;
 
 /**
  * Class ValidatorShould
@@ -33,12 +35,27 @@ class ValidatorFactoryShould extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(array(), $fileValidator->getValidator()->getPatterns());
     }
+    /**
+     * @test
+     * @covers michaelszymczak\CheckCheckIn\Validator\MultipleFilesValidator::getDisplay
+     */
+    public function createMultipleFilesValidatorUsingDisplayCreatedBasedOnConfig()
+    {
+        $multipleFilesValidator = $this->factory->createMultipleFilesValidator();
+
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Validator\MultipleFilesValidator', $multipleFilesValidator);
+        $this->assertSame($this->manager->getDisplay(), $multipleFilesValidator->getDisplay());
+
+    }
 
 
     private $factory;
+    private $manager;
     public function setUp()
-    {;
-        $this->factory = new ValidatorFactory();
+    {
+        $this->manager = new DependencyManager(new Config(array('config' => array(), 'groups' => array())));
+
+        $this->factory = new ValidatorFactory($this->manager);
     }
 
     private function createGroupWithTools($tools)
