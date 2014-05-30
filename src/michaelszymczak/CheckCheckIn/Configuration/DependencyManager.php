@@ -4,12 +4,13 @@ namespace michaelszymczak\CheckCheckIn\Configuration;
 use michaelszymczak\CheckCheckIn\Command\Git\FilteredGitFilesRetriever;
 use michaelszymczak\CheckCheckIn\Command\Git\GitFilesHarvesterFactory;
 use michaelszymczak\CheckCheckIn\Validator\ValidatorFactory;
+use michaelszymczak\CheckCheckIn\Validator\MainValidator;
 use michaelszymczak\CheckCheckIn\View\Display;
 
 class DependencyManager {
 
     private $display;
-    private $groups;
+    private $groups = array();
     private $config;
     private $gitFilesHarvesterFactory;
     private $validatorFactory;
@@ -23,8 +24,19 @@ class DependencyManager {
         $this->createGroupObjectssBasedOnConfig($config);
     }
 
-    public static function createFromParameters($parameters)
+    public static function create($parameters, $argv = null)
     {
+        if (null !== $argv && isset($argv[1]) && null !== $argv[1]) {
+            $mode = $argv[1];
+            if ('--modified' == $mode) {
+                $parameters['config']['candidates'] = Config::CANDIDATES_MODIFIED;
+            } elseif ('--staged' == $mode) {
+                $parameters['config']['candidates'] = Config::CANDIDATES_STAGED;
+            } else {
+                throw new \InvalidArgumentException("Not recognised mode: {$mode}, allowed modes are: --modified and implicit --staged");
+            }
+
+        }
         return new DependencyManager(new Config($parameters));
     }
 
@@ -57,6 +69,15 @@ class DependencyManager {
     public function getValidatorFactory()
     {
         return $this->validatorFactory;
+    }
+
+    public function getValidator()
+    {
+        return new MainValidator(
+            $this->getValidatorFactory()->createGroupValidator(),
+            $this->getDisplay(),
+            $this->getGroups()
+        );
     }
 
     private function createGroupObjectssBasedOnConfig($config)

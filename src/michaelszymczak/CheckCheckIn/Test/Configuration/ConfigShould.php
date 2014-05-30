@@ -30,6 +30,17 @@ class ConfigShould extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function storeGroupConfiguration()
+    {
+        $groupParameters = array('foo' => array('files' => array('bar.js'), 'tools' => array('baz ####')));
+
+        $config = $this->inputHelper->prepareWithGroupsConfiguration($groupParameters);
+
+        $this->assertSame($groupParameters, $config->getGroups());
+    }
+    /**
+     * @test
+     */
     public function providAccessForManyElementsArray()
     {
         $config = $this->inputHelper->createConfig(array(

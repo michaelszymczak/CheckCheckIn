@@ -1,132 +1,142 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Test\Validator;
 
-use michaelszymczak\CheckCheckIn\Response\ErrorResponse;
-use michaelszymczak\CheckCheckIn\Response\InfoResponse;
-use michaelszymczak\CheckCheckIn\Validator\Validator;
-use \michaelszymczak\CheckCheckIn\Validator\FileValidator;
+use \michaelszymczak\CheckCheckIn\Validator\MainValidator;
 use \Mockery as m;
 
 /**
- * Class ValidatorShould
+ * Class MainValidatorShould
  *
- * @covers michaelszymczak\CheckCheckIn\Validator\FileValidator
+ * @covers michaelszymczak\CheckCheckIn\Validator\MainValidator
  */
-class FileValidatorShould extends \PHPUnit_Framework_TestCase
+class MainValidatorShould extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * @test
      */
-    public function renderValidatorStatusResponses()
+    public function validateAllGroups()
     {
-        $output = $this->validatorTemplate->validate('Foo.java');
+        $mainValidator = $this->createMainValidatorAndExpectThatEachGroupValidatedOnce();
 
-        $this->assertStringStartsWith("\n", $output);
-        $this->assertContains("Foo.java", $output);
-        $this->assertContains("sometool [PASSED]", $output);
-        $this->assertContains("someothertool [FAILED]", $output);
+        $mainValidator->validate();
     }
     /**
      * @test
      */
-    public function renderValidatorViolationResponses()
+    public function return0IfAllGroupsValid()
     {
-        $output = $this->validatorTemplate->validate('Foo.java');
+        $mainValidator = $this->createMainValidatorWithTwoPasingGroup();
 
-        $this->assertContains("Some problem", $output);
-        $this->assertContains("Some problem description", $output);
-        $this->assertContains("lorem ipsum", $output);
+        $this->assertSame(0, $mainValidator->validate());
     }
+
     /**
      * @test
      */
-    public function returnSuccessWhenSuccessfulValidationOverallResult()
+    public function return1IfAllAtLeasOnGroupIsInvalid()
     {
-        $this->validator->dummyValidationResultFor['Foo.java'] = true;
+        $mainValidator = $this->createMainValidatorWithOneFailingAndTwoPasingGroup();
 
-        $this->validatorTemplate->validate('Foo.java');
-
-        $this->assertTrue($this->validatorTemplate->areValid());
+        $this->assertSame(1, $mainValidator->validate());
     }
+
     /**
      * @test
      */
-    public function returnFalseWhenFailedValidationOverallResult()
+    public function displayPositiveFinalVerdictIfAllGroupsPassed()
     {
-        $this->validator->dummyValidationResultFor['Foo.java'] = false;
+        $mainValidator = $this->createMainValidatorWithTwoPasingGroup();
+        $this->display->shouldReceive('displayFinalVerdict')->with(true)->once();
 
-        $this->validatorTemplate->validate('Foo.java');
-
-        $this->assertFalse($this->validatorTemplate->areValid());
+        $mainValidator->validate();
     }
+
     /**
      * @test
      */
-    public function storeValidator()
+    public function displayNegativeFinalVerdictIfSomeGroupFailed()
     {
-        $this->assertSame($this->validator, $this->validatorTemplate->getValidator());
+        $mainValidator = $this->createMainValidatorWithOneFailingAndTwoPasingGroup();
+        $this->display->shouldReceive('displayFinalVerdict')->with(false)->once();
+
+        $mainValidator->validate();
     }
 
 
-    private $validatorTemplate;
+    private $display;
+    private $groupValidator;
     public function setUp()
     {
-        $this->validator = new DummyValidator();
-        $this->validator->dummyStatusResponsesFor['Foo.java'] = array(
-            new ErrorResponse("=> Foo.java: "),
-            new InfoResponse("sometool [PASSED]"),
-            new InfoResponse("someothertool [FAILED]")
-        );
-        $this->validator->dummyViolationResponsesFor['Foo.java'] = array(
-            new InfoResponse("Some problem"),
-            new InfoResponse("Some problem description"),
-            new InfoResponse("lorem ipsum")
-        );
-
-        $this->validatorTemplate = new FileValidator($this->validator);
-    }
-
-    public function tearDown()
-    {
-        m::close();
+        $this->groupValidator = m::mock('\michaelszymczak\CheckCheckIn\Validator\GroupValidator');
+        $this->display = m::mock('\michaelszymczak\CheckCheckIn\View\Display');
+        $this->display->shouldReceive('displayFinalVerdict')->byDefault();
     }
 
 
-}
-
-
-class DummyValidator extends Validator {
-    public $dummyStatusResponsesFor = array();
-    public $dummyViolationResponsesFor = array();
-    public $dummyValidationResultFor = array();
-
-    private $validateFilenameArgument = null;
-
-    public function __construct()
+    private function createMainValidatorAndExpectThatEachGroupValidatedOnce()
     {
-
-    }
-    public function validate($filename)
-    {
-        $this->validateFilenameArgument = $filename;
-    }
-    public function getStatusResponses()
-    {
-        if (!isset($this->dummyStatusResponsesFor[$this->validateFilenameArgument])) {
-            throw new \RuntimeException("filename not validated yet");
+        $groups = $this->createSomeGroups();
+        foreach($groups as $group) {
+            $this->groupValidator->shouldReceive('validate')->with($group)->once();
         }
-        return $this->dummyStatusResponsesFor[$this->validateFilenameArgument];
+
+        return $this->createMainValidatorWithGroups($groups);
     }
-    public function getViolationResponses()
+
+    private function createMainValidatorWithGroupsThatPassOrFailValidation($groupsThatPassOrFail)
     {
-        if (!isset($this->dummyViolationResponsesFor[$this->validateFilenameArgument])) {
-            throw new \RuntimeException("filename not validated yet");
+        $groups = $this->createSomeGroupsAndConfigureGroupValidator($groupsThatPassOrFail);
+
+        return $this->createMainValidatorWithGroups($groups);
+    }
+
+    private function createMainValidatorWithTwoPasingGroup()
+    {
+        $mainValidator = $this->createMainValidatorWithGroupsThatPassOrFailValidation(array(
+            $this->createGroupEntry(true),
+            $this->createGroupEntry(true)
+        ));
+        return $mainValidator;
+    }
+
+    private function createMainValidatorWithOneFailingAndTwoPasingGroup()
+    {
+        $mainValidator = $this->createMainValidatorWithGroupsThatPassOrFailValidation(array(
+            $this->createGroupEntry(true),
+            $this->createGroupEntry(false),
+            $this->createGroupEntry(true)
+        ));
+        return $mainValidator;
+    }
+
+    private function createGroupEntry($valid)
+    {
+        return array('group' => m::mock('\michaelszymczak\CheckCheckIn\Configuration\Group'), 'pass' => $valid);
+    }
+
+    private function createMainValidatorWithGroups($groups)
+    {
+        $mainValidator = new MainValidator($this->groupValidator, $this->display, $groups);
+        return $mainValidator;
+    }
+
+    private function createSomeGroups()
+    {
+        $groups = array(
+            m::mock('\michaelszymczak\CheckCheckIn\Configuration\Group'),
+            m::mock('\michaelszymczak\CheckCheckIn\Configuration\Group')
+        );
+        return $groups;
+    }
+
+    private function createSomeGroupsAndConfigureGroupValidator($groupsThatPassOrFail)
+    {
+        $groups = array();
+        foreach ($groupsThatPassOrFail as $group) {
+            $this->groupValidator->shouldReceive('validate')->with($group['group'])->andReturn($group['pass']);
+            $groups[] = $group['group'];
         }
-        return $this->dummyViolationResponsesFor[$this->validateFilenameArgument];
-    }
-    public function areValid()
-    {
-        return $this->dummyValidationResultFor[$this->validateFilenameArgument];
+        return $groups;
     }
 }

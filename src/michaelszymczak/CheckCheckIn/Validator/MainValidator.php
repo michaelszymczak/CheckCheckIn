@@ -1,42 +1,32 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Validator;
 
-use michaelszymczak\CheckCheckIn\View\ShellView;
+use \michaelszymczak\CheckCheckIn\View\Display;
 
-class FileValidator {
+class MainValidator
+{
+    private $groupValidator;
+    private $display;
+    private $groups;
 
-    private $validator;
-    private $viewForStatuses;
-    private $viewForViolations;
-    public function __construct(Validator $validator)
+    public function __construct(GroupValidator $groupValidator, Display $display, $groups)
     {
-        $this->validator = $validator;
-        $this->viewForStatuses = ShellView::createInline();
-        $this->viewForViolations = ShellView::createNewline();
+        $this->groupValidator = $groupValidator;
+        $this->display = $display;
+        $this->groups = $groups;
     }
-    public function validate($filename)
+
+    public function validate()
     {
-
-        $this->validator->validate($filename);
-
-        $output = "\n";
-        foreach($this->validator->getStatusResponses() as $response) {
-            $output .= $response->render($this->viewForStatuses) . " ";
+        $allPassed = true;
+        foreach($this->groups as $group) {
+            if (!$this->groupValidator->validate($group)) {
+                $allPassed = false;
+            }
         }
-        $output .= "\n";
-        foreach($this->validator->getViolationResponses() as $response) {
-            $output .= $response->render($this->viewForViolations);
-        }
-        $output .= "\n";
 
-        return $output;
-    }
-    public function areValid()
-    {
-        return $this->validator->areValid();
-    }
-    public function getValidator()
-    {
-        return $this->validator;
+        $this->display->displayFinalVerdict($allPassed);
+
+        return $allPassed ? 0 : 1;
     }
 }
