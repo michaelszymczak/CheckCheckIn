@@ -9,6 +9,8 @@ class FilteredGitFilesRetriever
     private $harvester;
     private $blacklist;
 
+    private $allCandidates = null;
+
     public function __construct(GitFilesHarvester $harvester, $blacklist)
     {
         $this->harvester = $harvester;
@@ -18,7 +20,7 @@ class FilteredGitFilesRetriever
     public function getFiles($group)
     {
         $filter = new Filter($group->getFilePatterns(), $this->blacklist);
-        return array_map('escapeshellarg', $filter->filter($this->harvester->process()));
+        return array_map('escapeshellarg', $filter->filter($this->getAllCandidates()));
     }
     public function getBlacklist()
     {
@@ -27,6 +29,15 @@ class FilteredGitFilesRetriever
     public function getHarvester()
     {
         return $this->harvester;
+    }
+
+    private function getAllCandidates()
+    {
+        if (null === $this->allCandidates) {
+            $this->allCandidates = $this->harvester->process();
+        }
+
+        return $this->allCandidates;
     }
 
 
