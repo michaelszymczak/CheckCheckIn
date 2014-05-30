@@ -4,15 +4,15 @@ namespace michaelszymczak\CheckCheckIn\Test\Validator;
 use michaelszymczak\CheckCheckIn\Response\ErrorResponse;
 use michaelszymczak\CheckCheckIn\Response\InfoResponse;
 use michaelszymczak\CheckCheckIn\Validator\Validator;
-use \michaelszymczak\CheckCheckIn\Validator\ValidatorTemplate;
+use \michaelszymczak\CheckCheckIn\Validator\FileValidator;
 use \Mockery as m;
 
 /**
  * Class ValidatorShould
  *
- * @covers michaelszymczak\CheckCheckIn\Validator\ValidatorTemplate
+ * @covers michaelszymczak\CheckCheckIn\Validator\FileValidator
  */
-class ValidatorTemplateShould extends \PHPUnit_Framework_TestCase
+class FileValidatorShould extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -84,7 +84,7 @@ class ValidatorTemplateShould extends \PHPUnit_Framework_TestCase
             new InfoResponse("lorem ipsum")
         );
 
-        $this->validatorTemplate = new ValidatorTemplate($this->validator);
+        $this->validatorTemplate = new FileValidator($this->validator);
     }
 
     public function tearDown()

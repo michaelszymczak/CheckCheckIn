@@ -3,7 +3,7 @@ namespace michaelszymczak\CheckCheckIn\Validator;
 
 use michaelszymczak\CheckCheckIn\View\ShellView;
 
-class ValidatorTemplate {
+class FileValidator {
 
     private $validator;
     private $viewForStatuses;

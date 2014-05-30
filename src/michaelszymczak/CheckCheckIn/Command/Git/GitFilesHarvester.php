@@ -2,9 +2,10 @@
 namespace michaelszymczak\CheckCheckIn\Command\Git;
 
 use michaelszymczak\CheckCheckIn\Command\Executor\Executor;
+use michaelszymczak\CheckCheckIn\Command\Processable;
 use michaelszymczak\CheckCheckIn\Command\CommandUniqueResultsComposite;
 
-class GitFilesHarvester
+abstract class GitFilesHarvester implements Processable
 {
     private $executor;
     public function __construct(Executor $executor)
@@ -12,23 +13,14 @@ class GitFilesHarvester
         $this->executor = $executor;
     }
 
-    public function toBeCommited()
+    public function getExecutor()
     {
-        $harvester = $this->prepareHarvester();
-        $harvester->addComponent(new GitStaged());
-        return $harvester;
+        return $this->executor;
     }
 
-    public function allCandidates()
-    {
-        $harvester = $this->prepareHarvester();
-        $harvester->addComponent(new GitUntracked());
-        $harvester->addComponent(new GitModified());
-        $harvester->addComponent(new GitStaged());
-        return $harvester;
-    }
+    public abstract function process();
 
-    private function prepareHarvester()
+    protected function prepareHarvester()
     {
         return new CommandUniqueResultsComposite($this->executor);
     }
