@@ -20,5 +20,14 @@ class FilteredGitFilesRetriever
         $filter = new Filter($group->getFilePatterns(), $this->blacklist);
         return array_map('escapeshellarg', $filter->filter($this->harvester->process()));
     }
+    public function getBlacklist()
+    {
+        return $this->blacklist;
+    }
+    public function getHarvester()
+    {
+        return $this->harvester;
+    }
+
 
 }

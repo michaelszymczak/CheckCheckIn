@@ -43,7 +43,6 @@ class FilteredGitFilesRetrieverShould extends \PHPUnit_Framework_TestCase
 
 
 
-
     private function createFilteredGitFilesConfiguredThat($params)
     {
         $harvester = m::mock('\michaelszymczak\CheckCheckIn\Command\Git\GitFilesHarvester');
@@ -69,5 +68,6 @@ class FilteredGitFilesRetrieverShould extends \PHPUnit_Framework_TestCase
         $cleanedReturnedFiles = preg_replace('/[^A-Za-z0-9_]+/', '', $returnedFiles);
         $this->assertSame($expectedFilenames, $cleanedReturnedFiles);
     }
+
 }
 

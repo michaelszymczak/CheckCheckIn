@@ -6,11 +6,13 @@ class Config {
     private $config = array();
     private $groups = array();
 
+    const CANDIDATES_MODIFIED = 'modified';
+    const CANDIDATES_STAGED = 'staged';
+
     public function __construct($params)
     {
         $this->createConfigBasedOnConfigParams($params);
         $this->groups = $params['groups'];
-
     }
 
     public function getSuccessMessage()
@@ -38,11 +40,18 @@ class Config {
         return $this->groups;
     }
 
+    public function getCandidates()
+    {
+        return $this->config['candidates'];
+    }
     private function createConfigBasedOnConfigParams($params)
     {
         $this->prepareDefaultConfigParams();
         foreach ($params['config'] as $key => $param) {
             $this->config[$key] = $param;
+        }
+        if (!in_array($this->config['candidates'], array('staged', 'modified'))) {
+            throw new \InvalidArgumentException('Unallowed candidates parameter: ' . $this->config['candidates']);
         }
     }
 
@@ -52,6 +61,7 @@ class Config {
             'success' => array('-----------------', 'Validation passed', '-----------------'),
             'failure' => array('-----------------', 'Validation failed', '-----------------'),
             'blacklist' => array(),
+            'candidates' => 'staged',
             'stdout' => function ($msg) {
                     echo $msg;
                 }

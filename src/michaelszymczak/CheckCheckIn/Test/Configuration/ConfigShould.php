@@ -19,11 +19,13 @@ class ConfigShould extends \PHPUnit_Framework_TestCase
             'failure' => array('bar'),
             'stdout' => function() {},
             'blacklist' => array('baz'),
+            'candidates' => 'modified'
         ));
 
         $this->assertSame(array('foo'), $config->getSuccessMessage());
         $this->assertSame(array('bar'), $config->getFailureMessage());
         $this->assertSame(array('baz'), $config->getBlacklist());
+        $this->assertSame('modified', $config->getCandidates());
     }
     /**
      * @test
@@ -50,12 +52,14 @@ class ConfigShould extends \PHPUnit_Framework_TestCase
         unset($input['config']['success']);
         unset($input['config']['failure']);
         unset($input['config']['blacklist']);
+        unset($input['config']['candidates']);
 
         $config = new Config($input);
 
         $this->assertSame(array('-----------------', 'Validation passed', '-----------------'), $config->getSuccessMessage());
         $this->assertSame(array('-----------------', 'Validation failed', '-----------------'), $config->getFailureMessage());
         $this->assertSame(array(), $config->getBlacklist());
+        $this->assertSame('staged', $config->getCandidates());
 
     }
 
@@ -89,6 +93,28 @@ class ConfigShould extends \PHPUnit_Framework_TestCase
         $stdOutFunction('bar');
 
         $this->expectOutputString('bar');
+    }
+    /**
+     * @test
+     */
+    public function throwExceptionIfWrongCandidatesParameterPassed()
+    {
+        $this->setExpectedException('InvalidArgumentException', 'candidates');
+        $this->inputHelper->createConfig(array(
+            'candidates' => 'wrongvalue'
+        ));
+    }
+    /**
+     * @test
+     */
+    public function allowCreationOfConfigWhenCorrectCandidatesParameter()
+    {
+        $this->inputHelper->createConfig(array(
+            'candidates' => 'staged'
+        ));
+        $this->inputHelper->createConfig(array(
+            'candidates' => 'modified'
+        ));
     }
 
     private $inputHelper;

@@ -11,6 +11,7 @@ class ConfigInputHelperTest
             'success' => array('foo'),
             'failure' => array('bar'),
             'blacklist' => array('baz'),
+            'candidates' => 'staged'
         );
 
         foreach($config as $key => $value) {

@@ -14,10 +14,11 @@ class DependencyManagerShould extends \PHPUnit_Framework_TestCase
      */
     public function createDisplayUsingStdoutFunctionFromConfig()
     {
-        $config = $this->inputHelper->createConfig(array('stdout' =>
-            function($msg) { echo "FROM CONFIG: {$msg}"; }
+        $manager = $this->createDMWithConfigParams(array('stdout' =>
+            function ($msg) {
+                echo "FROM CONFIG: {$msg}";
+            }
         ));
-        $manager = new DependencyManager($config);
 
         $manager->getDisplay()->display('foo');
 
@@ -30,7 +31,7 @@ class DependencyManagerShould extends \PHPUnit_Framework_TestCase
     public function createGroupBasedOnGroupParameters()
     {
 
-        $config = $this->inputHelper->prepareWithGroupsConfiguration(array(
+        $manager = $this->createDMWithConfigParams(array(), array(
             'groupFoo' => array(
                 'files' => array('/*.foo$/'),
                 'tools' => array('fooCheck ####')
@@ -40,7 +41,6 @@ class DependencyManagerShould extends \PHPUnit_Framework_TestCase
                 'tools' => array('barCheck ####')
             )
         ));
-        $manager = new DependencyManager($config);
 
         $groups = $manager->getGroups();
 
@@ -52,6 +52,45 @@ class DependencyManagerShould extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @test
+     *
+     * @covers \michaelszymczak\CheckCheckIn\Command\Git\FilteredGitFilesRetriever::getBlacklist
+     */
+    public function createFilteredGitFilesRetrieverUsingConfigBlacklist()
+    {
+        $manager = $this->createDMWithConfigParams(array('blacklist' => array('/foo/')));
+
+        $retriever = $manager->getFilteredGitFilesRetriever();
+
+        $this->assertSame(array('/foo/'), $retriever->getBlacklist());
+    }
+    /**
+     * @test
+     *
+     * @covers \michaelszymczak\CheckCheckIn\Command\Git\FilteredGitFilesRetriever::getBlacklist
+     */
+    public function createFilteredGitFilesRetrieverWithGitStagedFilesHarvesterWhenStagedCandidatesInConfig()
+    {
+        $manager = $this->createDMWithConfigParams(array('candidates' => 'staged'));
+
+        $retriever = $manager->getFilteredGitFilesRetriever();
+
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Command\Git\GitStagedFilesHarvester', $retriever->getHarvester());
+    }
+    /**
+     * @test
+     *
+     * @covers \michaelszymczak\CheckCheckIn\Command\Git\FilteredGitFilesRetriever::getBlacklist
+     */
+    public function createFilteredGitFilesRetrieverWithGitModifiedFilesHarvesterWhenModifiedCandidatesInConfig()
+    {
+        $manager = $this->createDMWithConfigParams(array('candidates' => 'modified'));
+
+        $retriever = $manager->getFilteredGitFilesRetriever();
+
+        $this->assertInstanceOf('\michaelszymczak\CheckCheckIn\Command\Git\GitModifiedFilesHarvester', $retriever->getHarvester());
+    }
 
     private function assertCreatedGroupsWithConfiguration($configuration, $groups)
     {
@@ -65,5 +104,12 @@ class DependencyManagerShould extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->inputHelper = new ConfigInputHelperTest();
+    }
+
+    private function createDMWithConfigParams($config = array(), $groups = array())
+    {
+        $config = $this->inputHelper->createConfig($config, $groups);
+        $manager = new DependencyManager($config);
+        return $manager;
     }
 }
