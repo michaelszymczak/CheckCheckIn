@@ -1,9 +1,9 @@
 <?php
 namespace michaelszymczak\CheckCheckIn\Command\Git;
 
-use michaelszymczak\CheckCheckIn\Command\Executor\Executor;
+use michaelszymczak\CheckCheckIn\Command\Processable;
 
-class GitStagedFilesHarvester extends GitFilesHarvester
+class GitStagedFilesHarvester extends GitFilesHarvester implements Processable
 {
     public function process()
     {
