@@ -1,0 +1,68 @@
+#!/usr/bin/php
+<?php
+use \michaelszymczak\CheckCheckIn\CCI;
+
+// AUTOLOADER AUTOFINDING
+
+$autoloaderPath = '/vendor/autoload.php';
+for ($dirUpCount = 0; $dirUpCount < 5; $dirUpCount++) {
+    $fullAutoloaderPath = __DIR__ . $autoloaderPath;
+    if (file_exists($fullAutoloaderPath)) {
+        require_once $fullAutoloaderPath;
+        break;
+    }
+    $autoloaderPath = '/..' . $autoloaderPath;
+}
+
+
+// CONFIGURATION
+
+$parameters = array(
+
+    'groups' => array(
+        'php' => array( // EXAMPLE ONLY. MODIFY OR ADD NEW LANGUAGE GROUPS
+            'files' => array('/\.php$/'),
+            'tools' => array(
+                'PHP Lint' => 'php -l ####', // EXAMPLE ONLY. MODIFY OR REMOVE
+                'PHP Mess Detector' => 'phpmd #### text path/to/phpmdRuleset.xml', // EXAMPLE ONLY. MODIFY OR REMOVE
+                'PHP Coding standards' => 'php path/to/phpcs --standard=Symfony2 ####' // EXAMPLE ONLY. MODIFY OR REMOVE
+            )
+        ),
+        'js' => array(
+            'files' => array('/\.js$/'),
+            'tools' => array(
+                'JSLint' => 'java -jar jslint4java.jar ####' // EXAMPLE ONLY. MODIFY OR REMOVE
+            )
+        )
+    ),
+
+    'config' => array(
+        'blacklist' => array(
+            '|^app/|', // EXAMPLE ONLY. MODIFY OR REMOVE
+            '|^build/|', // EXAMPLE ONLY. MODIFY OR REMOVE
+            '|^check.php$|', // EXAMPLE ONLY. MODIFY OR REMOVE
+            '|^docs/|' // EXAMPLE ONLY. MODIFY OR REMOVE
+        ),
+        'success' => array(
+            "",
+            "     ****************************************     ",
+            "     *                   Validation passed! *     ",
+            "     ****************************************     ",
+            ""
+        ),
+        'failure' => array(
+            "",
+            "     ****************************************     ",
+            "     *        Validation failed!            *     ",
+            "     ****************************************     ",
+            ""
+        ),
+        'stdout' => function($message) {
+                echo $message; // write on the screen
+                // file_put_contents('/tmp/validation.txt', $message, FILE_APPEND); // you can also write to a file
+            }
+    ),
+);
+
+// VALIDATION
+exit(CCI::check($parameters, $argv));
