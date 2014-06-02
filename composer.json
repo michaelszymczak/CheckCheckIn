@@ -1,5 +1,7 @@
 {
     "name": "michaelszymczak/check-check-in",
+    "homepage": "https://github.com/michaelszymczak/CheckCheckIn",
+    "license": "MIT",
     "authors": [
         {
             "name": "Michael Szymczak",
