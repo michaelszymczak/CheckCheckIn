@@ -23,7 +23,7 @@ Use the composer to install the project as a dev dependency and copy the example
     curl -sS https://getcomposer.org/installer | php
     php composer.phar require "michaelszymczak/check-check-in 1.*@dev" --dev
 
-    cp vendor/michaelszymczak/check-check-in/docs/pre-commit .
+    cp vendor/michaelszymczak/check-check-in/pre-commit.sample pre-commit
 
 
 Usage
