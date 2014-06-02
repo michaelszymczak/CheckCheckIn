@@ -15,8 +15,8 @@ Vagrant.configure("2") do |config|
     puppet.module_path = ["provisioning/provisioning/manifests/modules"]
   end
 
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 512
-  end
+#  config.vm.provider "virtualbox" do |v|
+#    v.memory = 512
+#  end
 
 end
