@@ -6,7 +6,7 @@ CheckCheckIn
 Description
 -----------
 Simple, language-agnostic, customizable app that helps developers validate modified files (using static code analysis tools etc.).
-Can be easily integrated with git as a pre-commit hook.
+Can be easily integrated with a git as a pre-commit hook.
 
 Requirements
 ------------
@@ -51,6 +51,6 @@ You can easily register this tool as the git pre-commit hook:
     cp pre-commit .git/hooks/pre-commit
 
 Remember that the content of the target pre-commit file will be overwritten, so check if it file already exists. From now on, each time you try
-to commit some files the tool checks them and reject the commit if the rules violation has been found.
+to commit some files the tool checks them and rejects the commit if the rules violation has been found.
 
 
