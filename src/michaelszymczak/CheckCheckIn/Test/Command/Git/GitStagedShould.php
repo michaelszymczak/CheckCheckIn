@@ -15,11 +15,14 @@ class GitStagedShould extends CommandCompositeTestCase
     /**
      * @test
      */
-    public function execCommandListingAllGitStagedFiles()
+    public function execCommandListingStagedButOnlyAddedCopiedModifiedAndUnmergedFilesIgnoringDeletedOnesAsTheyNoLongerExist()
     {
-        $execResult = array('foo');
-        $this->executor->shouldReceive('exec')->with('git diff-index --cached --name-only HEAD')->once()->andReturn($execResult);
-        $this->assertSame($execResult, $this->leaf->process($this->executor));
+        $repoStateWithRemovedFiles = array('removed_foo.txt', 'modified_bar.txt');
+        $repoStateWithoutRemovedFiles = array('modified_bar.txt');
+        $this->executor->shouldReceive('exec')->with('git diff-index --cached --name-only HEAD')->andReturn($repoStateWithRemovedFiles);
+        $this->executor->shouldReceive('exec')->with('git diff-index --cached --name-only --diff-filter=ACMU HEAD')->andReturn($repoStateWithoutRemovedFiles);
+
+        $this->assertSame($repoStateWithoutRemovedFiles, $this->leaf->process($this->executor));
     }
     /**
      * @test
@@ -27,10 +30,10 @@ class GitStagedShould extends CommandCompositeTestCase
     public function useUniversalBaseHashIfNoHEADinNotYetCommitedRepository()
     {
         $this->executor->shouldReceive('exec')
-            ->with('git diff-index --cached --name-only HEAD')
+            ->with('git diff-index --cached --name-only --diff-filter=ACMU HEAD')
             ->andThrow(new \RuntimeException());
         $this->executor->shouldReceive('exec')
-            ->with('git diff-index --cached --name-only 4b825dc642cb6eb9a060e54bf8d69288fbee4904')
+            ->with('git diff-index --cached --name-only --diff-filter=ACMU 4b825dc642cb6eb9a060e54bf8d69288fbee4904')
             ->andReturn(array('stagedFileInNotYetCommitedRepo.txt'));
 
         $this->assertSame(array('stagedFileInNotYetCommitedRepo.txt'), $this->leaf->process($this->executor));
