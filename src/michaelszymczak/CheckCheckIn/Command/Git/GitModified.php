@@ -6,6 +6,6 @@ class GitModified extends ExecutorAwareComponent
 {
     public function getCommands()
     {
-        return array('git ls-files --modified');
+        return array('git diff-files --name-only --diff-filter=ACMU');
     }
 }

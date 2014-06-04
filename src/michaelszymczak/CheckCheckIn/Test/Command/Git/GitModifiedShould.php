@@ -14,12 +14,15 @@ class GitModifiedShould extends CommandCompositeTestCase
     /**
      * @test
      */
-    public function execCommandListingAllGitModifiedFiles()
+    public function execCommandListingModifiedButOnlyAddedCopiedModifiedAndUnmergedFilesIgnoringDeletedOnesAsTheyNoLongerExist()
     {
-        $execResult = array('foo');
-        $this->executor->shouldReceive('exec')->with('git ls-files --modified')->once()->andReturn($execResult);
-        $this->assertSame($execResult, $this->leaf->process($this->executor));
+        $repoStateWithRemovedFiles = array('removed_foo.txt', 'modified_bar.txt');
+        $repoStateWithoutRemovedFiles = array('modified_bar.txt');
+        $this->executor->shouldReceive('exec')->with('git ls-files --modified')->andReturn($repoStateWithRemovedFiles);
+        $this->executor->shouldReceive('exec')->with('git diff-files --name-only')->andReturn($repoStateWithRemovedFiles);
+        $this->executor->shouldReceive('exec')->with('git diff-files --name-only --diff-filter=ACMU')->andReturn($repoStateWithoutRemovedFiles);
 
+        $this->assertSame($repoStateWithoutRemovedFiles, $this->leaf->process($this->executor));
     }
     /**
      * @test
@@ -35,7 +38,7 @@ class GitModifiedShould extends CommandCompositeTestCase
      */
     public function throwExceptionIfExecutedCommandReturnsError()
     {
-      $this->executor->shouldReceive('exec')->with('git ls-files --modified')->once()->andThrow(new \RuntimeException());
+      $this->executor->shouldReceive('exec')->andThrow(new \RuntimeException());
 
       $this->leaf->process($this->executor);
     }
